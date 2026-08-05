@@ -52,8 +52,6 @@
 
 ---
 
-## 4. 수행 로그 및 검증 결과
-
 ### 4.1. 터미널 조작 및 권한 실습 로그
 
 ✅ **터미널 기본 조작**
@@ -242,6 +240,7 @@ mydata
 # 2. 첫 번째 컨테이너 생성 및 볼륨 마운트 후 데이터 기록
 hohojooho0306@c4r6s3 practice % docker run -d --name vol-test1 -v mydata:/data ubuntu sleep infinity
 888df9810decfb9acf0e61f2d11d83c0c1dcd3bf9071066d46fb57f595b970fe
+
 hohojooho0306@c4r6s3 practice % docker exec vol-test1 bash -c "echo 'Important Data' > /data/test.txt"
 
 # 3. 첫 번째 컨테이너 강제 파기
@@ -251,6 +250,7 @@ vol-test1
 # 4. 동일 볼륨을 두 번째 새 컨테이너에 연동하여 데이터 확인
 hohojooho0306@c4r6s3 practice % docker run -d --name vol-test2 -v mydata:/data ubuntu sleep infinity
 d8b5040cc41c59077f46f04861375e21419b11003dbe1a8d1d8d7c1c6ef42fc1
+
 hohojooho0306@c4r6s3 practice % docker exec vol-test2 bash -c "cat /data/test.txt"
 Important Data
 4.6. Git 설정 및 GitHub 연동 로그
@@ -269,24 +269,24 @@ hohojooho0306@c4r6s3 practice % git commit -m "feat: complete dev workstation mi
 hohojooho0306@c4r6s3 practice % git branch -M main
 
 # 3. Remote URL 설정 및 Push
-hohojooho0306@c4r6s3 practice % git remote set-url origin [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/hohojooho-ship-it/my-docker-web.git)
+hohojooho0306@c4r6s3 practice % git remote set-url origin https://github.com/hohojooho-ship-it/my-docker-web.git
 hohojooho0306@c4r6s3 practice % git push -u origin main
 5. 트러블슈팅 (Troubleshooting)
 📌 이슈 1: zsh 쉘에서 echo 명령어 내 느낌표(!) 입력 시 zsh: event not found 에러
 
-문제: echo "<h1>My Custom Docker Web Server!</h1>" 입력 시 zsh: event not found: </h1> 오류가 발생하며 파일 저장 실패
+문제 (Problem): echo "<h1>My Custom Docker Web Server!</h1>" 입력 시 zsh: event not found: </h1> 오류가 발생하며 파일 저장 실패
 
-원인 가설: zsh 쉘이 쌍따옴표 내부의 !를 히스토리 검색 이벤트 키워드로 인식함
+원인 가설 (Hypothesis): zsh 쉘이 쌍따옴표 내부의 !를 히스토리 검색 이벤트 키워드로 인식함
 
-해결: 느낌표 앞에 이스케이프 문자를 붙여 \! 형태로 작성 (echo "<h1>My Custom Docker Web Server\!</h1>" > index.html)하여 정상 파일 생성 완료
+해결 (Solution): 느낌표 앞에 이스케이프 문자를 붙여 \! 형태로 작성 (echo "<h1>My Custom Docker Web Server\!</h1>" > index.html)하여 정상 파일 생성 완료
 
 📌 이슈 2: GitHub URL 입력 시 줄바꿈(Enter)에 의한 Remote 중복 등록 에러
 
-문제: git remote add origin 명령어 실행 중 URL에 개행 문자가 들어가면서 zsh: no such file or directory 및 error: origin 리모트가 이미 있습니다 에러 발생
+문제 (Problem): git remote add origin 명령어 실행 중 URL에 개행 문자가 들어가면서 zsh: no such file or directory 및 error: origin 리모트가 이미 있습니다 에러 발생
 
-원인 가설: 불완전하게 추가된 origin 이름이 이미 저정소 목록에 등록된 상태임
+원인 가설 (Hypothesis): 불완전하게 추가된 origin 이름이 이미 저장소 목록에 등록된 상태임
 
-해결: git remote set-url origin https://github.com/hohojooho-ship-it/my-docker-web.git 명령어를 통해 단일 라인 URL로 정확히 갱신 및 연동 완료
+해결 (Solution): git remote set-url origin [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/hohojooho-ship-it/my-docker-web.git) 명령어를 통해 단일 라인 URL로 정확히 갱신 및 연동 완료
 
 6. 과제 목표 개념 자가 점검 (Self-Check)
 ✅ 절대 경로 vs 상대 경로
