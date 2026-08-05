@@ -56,29 +56,58 @@ practice/
 
 ### 5.1. 터미널 조작 및 권한 실습 로그
 
-#### ✅ 터미널 기본 조작 (파일 생성, 이동, 삭제)
-* 디렉토리 생성, 이동 및 현재 작업 위치 확인
-* 파일 생성, 내용 작성, 복사, 이동(이름 변경), 삭제 및 전체 파일 목록 조회 및 전후 비교
+#### 1) 디렉토리 생성 및 작업 위치 확인
+* `mkdir -p ~/codyssey/practice`: 새로운 디렉토리를 생성하는 명령어이며, `-p` 옵션은 중간 경로가 없을 경우 함께 생성해 줍니다.
+* `cd ~/codyssey/practice`: 현재 작업 위치를 실습 디렉토리인 `practice`로 이동합니다.
+* `pwd`: 현재 작업 중인 디렉토리의 전체 경로를 출력합니다.
 
 ```bash
-# 1. 디렉토리 생성 및 이동
 hohojooho0306@c4r6s3 ~ % mkdir -p ~/codyssey/practice
 hohojooho0306@c4r6s3 ~ % cd ~/codyssey/practice
 hohojooho0306@c4r6s3 practice % pwd
 /Users/hohojooho0306/codyssey/practice
+```
+* **확인 내용:** 현재 작업 위치가 `practice` 디렉토리로 정상 변경된 것을 확인했습니다.
 
-# 2. 파일 생성 및 내용 작성
+---
+
+#### 2) 파일 생성 및 내용 작성
+* `touch test_file.txt`: 빈 파일 `test_file.txt`를 새로 만듭니다.
+* `echo "Hello Codyssey!" > test_file.txt`: 문자열을 출력하는 `echo`와 리다이렉션 기호(`>`)를 사용하여 파일에 내용을 저장합니다. (기존 내용이 있다면 덮어씁니다.)
+
+```bash
 hohojooho0306@c4r6s3 practice % touch test_file.txt
 hohojooho0306@c4r6s3 practice % echo "Hello Codyssey!" > test_file.txt
+```
+* **확인 내용:** `test_file.txt` 파일 생성 및 "Hello Codyssey!" 문자열이 성공적으로 저장되었습니다.
 
-# 3. 파일 복사(cp), 이동/이름변경(mv), 삭제(rm) 및 전후 비교
+---
+
+#### 3) 파일 복사, 이름 변경 및 상세 조회
+* `cp test_file.txt copy_file.txt`: `test_file.txt`를 복사하여 `copy_file.txt`를 생성합니다.
+* `mv copy_file.txt moved_file.txt`: `copy_file.txt`의 이름을 `moved_file.txt`로 변경합니다.
+* `ls -l`: 현재 디렉토리의 파일 목록과 함께 권한, 소유자, 크기, 수정 시간 등을 자세히 보여줍니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % cp test_file.txt copy_file.txt
 hohojooho0306@c4r6s3 practice % mv copy_file.txt moved_file.txt
 hohojooho0306@c4r6s3 practice % ls -l
 total 16
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:52 moved_file.txt
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
+```
+* **확인 내용:**
+  * 원본 파일 `test_file.txt`가 존재함을 확인했습니다.
+  * 복사 후 이름이 변경된 `moved_file.txt`가 정상 생성된 것을 확인했습니다.
+  * `-rw-r--r--`를 통해 현재 설정된 기본 파일 권한 정보를 검증했습니다.
 
+---
+
+#### 4) 파일 삭제 및 최종 검증
+* `rm moved_file.txt`: 복사 후 이름 변경했던 `moved_file.txt`를 삭제합니다.
+* `ls -la`: 숨김 파일을 포함한 전체 파일 목록을 상세 출력합니다. (`.`은 현재 디렉토리, `..`은 상위 디렉토리를 의미)
+
+```bash
 hohojooho0306@c4r6s3 practice % rm moved_file.txt
 hohojooho0306@c4r6s3 practice % ls -la
 total 8
@@ -86,11 +115,16 @@ drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:53 .
 drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:41 ..
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
 ```
+* **확인 내용:**
+  * `moved_file.txt`가 정상적으로 삭제되었습니다.
+  * 최종적으로 `test_file.txt`만 남아있음을 확인했습니다.
+  * 파일의 **생성 ➔ 복사 ➔ 이름 변경 ➔ 삭제** 전 과정이 정상적으로 검증되었습니다.
 
-#### ✅ 권한 변경 전/후 비교 (파일 1개, 디렉토리 1개)
-* 파일 권한: 644 (`-rw-r--r--`) ➔ 755 (`-rwxr-xr-x`) 변경
-* 디렉토리 권한: 755 (`drwxr-xr-x`) ➔ 644 (`drw-r--r--`) 변경
-* **권한 적용 이유:** `test_file.txt`는 실행 스크립트 역할을 부여하기 위해 실행 권한(`x`)이 포함된 **755**를 부여했고, `test_dir`은 보안상 외부 실행/내부 탐색을 제한하고 읽기/쓰기만 허용하기 위해 **644**를 적용함
+---
+
+#### 5) 권한 변경 실습 및 전/후 비교
+* `chmod`: 파일이나 디렉토리의 읽기(r), 쓰기(w), 실행(x) 접근 권한을 변경합니다.
+* **권한 적용 이유:** `test_file.txt`는 실행 스크립트 역할을 부여하기 위해 실행 권한(`x`)이 포함된 **755**를 부여했고, `test_dir`은 보안상 외부 실행/내부 탐색을 제한하고 읽기/쓰기만 허용하기 위해 **644**를 적용했습니다.
 
 ```bash
 # 1. 디렉토리 생성 및 초기 권한 상태 확인
@@ -108,17 +142,17 @@ hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
 drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 -rwxr-xr-x  1 hohojooho0306  hohojooho0306   0  7 29 15:51 test_file.txt
 ```
+* **확인 내용:**
+  * 파일 권한: `644 (-rw-r--r--)` ➔ `755 (-rwxr-xr-x)`로 성공적으로 변경되었습니다.
+  * 디렉토리 권한: `755 (drwxr-xr-x)` ➔ `644 (drw-r--r--)`로 성공적으로 변경되었습니다.
 
 ---
 
 ### 5.2. Docker 설치 점검 및 운영 로그
 
-#### ✅ 버전 및 데몬 동작 점검
-* Git 및 Docker CLI 버전 정상 확인
-* **`docker info` 주요 항목 의미 해석:**
-  * `Containers: 0 (Running: 0, Paused: 0, Stopped: 0)`: 현재 호스트에 가상화되어 동작하거나 정지된 컨테이너 총수
-  * `Images: 0`: 로컬에 캐싱되거나 생성된 도커 이미지 수
-  * `Operating System: OrbStack`: macOS 상에서 경량화 VM 엔진인 OrbStack 데몬이 가상화 가동 중임을 의미
+#### 1) 도커 버전 및 데몬 상태 점검
+* `docker --version`: 클라이언트 도커 엔진 버전을 확인합니다.
+* `docker info`: 시스템 전체의 도커 데몬 상태, 시스템 자원, 컨테이너 및 이미지 개수 등 상세 메타정보를 조회합니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % git --version
@@ -146,11 +180,18 @@ Server:
  CPUs: 6
  Total Memory: 15.67GiB
 ```
+* **`docker info` 주요 용어 설명:**
+  * `Containers`: 현재 가상화되어 동작 중이거나 정지된 컨테이너의 총 수 (`Running`/`Paused`/`Stopped` 상태별 세부 표기)
+  * `Images`: 로컬 저장소에 캐싱되거나 직접 빌드하여 보관 중인 이미지의 수
+  * `Operating System`: macOS 환경에서 가상화 백엔드로 작동 중인 경량 VM 엔진(OrbStack) 정보를 출력
 
-#### ✅ Docker 기본 운영 명령 수행 및 정리 절차 설명
-* `images`: 로컬 이미지 목록 확인
-* `ps -a`: 종료된 컨테이너 포함 전체 조회
-* **컨테이너/이미지 정리 시점 및 이유:** 실습 종료 후 불필요한 디스크 용량 점유를 방지하고 리소스 경합을 줄이기 위해 사용하지 않는 정지된 컨테이너(`docker rm`) 및 베이스 이미지(`docker rmi`)를 명시적으로 삭제함
+---
+
+#### 2) Docker 기본 운영 명령 수행 및 정리 절차
+* `docker images`: 로컬에 다운로드되거나 생성된 이미지 목록을 조회합니다.
+* `docker ps -a`: 종료된 컨테이너를 포함해 호스트의 모든 컨테이너 이력을 확인합니다. (`-a` 옵션 제외 시 실행 중인 컨테이너만 표시)
+* `docker logs`: 지정한 컨테이너 내부의 표준 출력(STDOUT) 로그를 확인합니다.
+* `docker rm` / `docker rmi`: 컨테이너 삭제 / 이미지 삭제 명령어입니다.
 
 ```bash
 $ docker images
@@ -172,12 +213,14 @@ root@ae98f507013d:/# exit
 $ docker rm my-ubuntu gifted_meitner
 $ docker rmi hello-world
 ```
+* **컨테이너/이미지 정리 시점 및 이유:** 실습 완료 후 불필요한 디스크 용량 점유를 방지하고 리소스 경합을 줄이기 위해, 사용하지 않는 정지 상태의 컨테이너와 중복 이미지를 명시적으로 삭제했습니다.
 
 ---
 
 ### 5.3. 컨테이너 실행 실습 및 관찰 (`hello-world`, `ubuntu`)
 
-#### ✅ `hello-world` 전체 실행 출력 (컨텍스트 전체)
+#### 1) `hello-world` 이미지 실행
+* `docker run`: 이미지가 로컬에 없으면 Docker Hub에서 자동 다운로드(`pull`)한 후 컨테이너를 생성(`create`) 및 시작(`start`)합니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % docker run hello-world
@@ -203,8 +246,12 @@ Share images, automate workflows, and more with a free Docker ID:
 For more examples and ideas, visit:
  [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
 ```
+* **확인 내용:** Docker 클라이언트-데몬 간 통신, 이미지 다운로드, 컨테이너 생성 및 메시지 출력이 정상 작동함을 전체 로그로 입증했습니다.
 
-#### ✅ `ubuntu` 컨테이너 진입 후 명령 수행
+---
+
+#### 2) `ubuntu` 대화형 컨테이너 실행
+* `-it` 옵션: `-i`(Interactive, 표준 입력 유지)와 `-t`(TTY, 의사 터미널 할당)를 조합하여 컨테이너 내부 쉘로 직접 들어갈 수 있게 해줍니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % docker run -it --name my-ubuntu ubuntu bash
@@ -214,28 +261,43 @@ root@ae98f507013d:/# echo "Hello Docker"
 Hello Docker
 root@ae98f507013d:/# exit
 ```
+* **확인 내용:** 우분투 리눅스 환경의 CLI 제어판에 접속하여 명령어 수행이 완벽히 작동함을 검증했습니다.
 
-#### ✅ `attach` vs `exec` 및 종료/유지 동작 차이 관찰
-* **`exit` vs `Ctrl+P+Q`:** 대화형 진입 후 `exit` 실행 시 메인 프로세스가 종료되어 `Exited` 상태로 변환되지만, `Ctrl+P+Q` 입력 시 컨테이너를 `Up(Running)` 상태로 유지하면서 탈출 가능
-* **`docker attach`:** 실행 중인 컨테이너의 메인 프로세스(표준 입출력)에 연결되므로 종료 시 컨테이너 전체가 정지됨
-* **`docker exec`:** 실행 중인 컨테이너에 독립된 추가 프로세스를 실행하므로, 사용 후 `exit`로 빠져나와도 메인 프로세스 및 컨테이너가 계속 동작함
+---
+
+#### 3) `attach` vs `exec` 및 종료/유지 동작 차이 관찰
+* **`exit` vs `Ctrl + P + Q` 차이:**
+  * `exit`: 대화형 쉘 종료 시 메인 프로세스가 종료되어 컨테이너가 `Exited` (정지) 상태로 변경됨.
+  * `Ctrl + P` $\rightarrow$ `Ctrl + Q` (Detach): 컨테이너를 정지시키지 않고 백그라운드 `Up (Running)` 상태로 둔 채 내 터미널 화면만 빠져나옴.
+* **`docker attach` vs `docker exec` 핵심 개념 차이:**
+  * **`docker attach <컨테이너ID>`:** 컨테이너가 켜질 때 실행된 **기존 메인 프로세스(STDIN/STDOUT)**에 직접 연결합니다. 따라서 터미널 탈출 시 `exit`를 치면 메인 프로세스가 죽어 컨테이너 전체가 중지됩니다.
+  * **`docker exec -it <컨테이너ID> bash`:** 실행 중인 컨테이너에 **독립된 보조 프로세스(새 쉘)**를 하나 더 띄워서 진입합니다. 작업 종료 후 `exit`를 쳐도 추가된 프로세스만 종료되므로 메인 컨테이너는 계속 실행 상태를 유지합니다.
 
 ---
 
 ### 5.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
 
-#### ✅ 베이스 이미지 및 커스텀 포인트
-* **베이스 이미지:** `nginx:alpine`
-* **커스텀 목적:** 사용자 지정 `index.html`을 컨테이너 내 NGINX 경로(`/usr/share/nginx/html/index.html`)로 복사하여 정적 대문 변경
-
-#### ✅ 소스 코드 작성, 빌드 및 생성된 이미지 스냅샷 확인
+#### 1) 개념 설명 및 소스 코드 작성
+* **Dockerfile:** 이미지 빌드 과정을 자동화한 명세서 파일입니다.
+* **베이스 이미지 (`FROM`):** 이미지를 빌드할 바탕이 되는 기초 환경 (`nginx:alpine` 사용)
+* **`COPY`:** 호스트의 `index.html` 파일을 NGINX 웹 서버의 루트 경로로 복사하여 기본 페이지를 대체함.
 
 ```bash
 # 1. 커스텀 index.html 및 Dockerfile 생성
 hohojooho0306@c4r6s3 practice % echo "<h1>My Custom Docker Web Server\!</h1>" > index.html
 hohojooho0306@c4r6s3 practice % echo "FROM nginx:alpine" > Dockerfile
 hohojooho0306@c4r6s3 practice % echo "COPY index.html /usr/share/nginx/html/index.html" >> Dockerfile
+```
 
+---
+
+#### 2) 이미지 빌드 및 포트 매핑 실행
+* `docker build -t <이미지명:태그> <경로>`: Dockerfile을 읽어 새 이미지를 빌드합니다.
+* `docker run -d -p 8080:80`:
+  * `-d` (Detached): 백그라운드에서 컨테이너를 실행합니다.
+  * `-p 8080:80` (Port Mapping): 호스트의 8080 포트 접속을 컨테이너 내부의 NGINX 80 포트로 연결해 줍니다.
+
+```bash
 # 2. Dockerfile 기반 이미지 빌드
 hohojooho0306@c4r6s3 practice % docker build -t my-custom-web:1.0 .
 [+] Building 6.3s (7/7) FINISHED                                              docker:orbstack
@@ -254,9 +316,10 @@ hohojooho0306@c4r6s3 practice % docker run -d -p 8080:80 --name web-test my-cust
 49b886e899c6d0026fc74564809cd71e4a71ea267ec00d6e8d2d3bf382ce1c20
 ```
 
-#### ✅ 포트 매핑 브라우저/HTTP 응답 접속 증명
-* **접속 URL:** http://localhost:8080
-* **curl 응답 캡처:**
+---
+
+#### 3) 포트 매핑 접속 증명 (curl 응답 캡처)
+* `curl -i`: HTTP 응답 헤더와 바디 본문 출력을 함께 조회하여 웹 서버가 정상 작동하는지 외부 터미널에서 검증합니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % curl -i http://localhost:8080
@@ -269,13 +332,15 @@ Connection: keep-alive
 
 <h1>My Custom Docker Web Server!</h1>
 ```
+* **확인 내용:** 브라우저 및 `curl` 명령을 통해 NGINX 웹 서버의 200 OK 응답과 커스텀 HTML 메시지가 정상 노출됨을 증명했습니다.
 
 ---
 
 ### 5.5. 바인드 마운트 및 볼륨 영속성 검증
 
-#### ✅ 바인드 마운트 (Bind Mount) 호스트 동기화
-* 호스트 디렉터리(`$(pwd)`)를 컨테이너 내부(`/app`)로 마운트하여 컨테이너 내부 변경 사항이 호스트 시스템에 즉시 반영됨을 확인
+#### 1) 바인드 마운트 (Bind Mount) 실시간 동기화
+* **바인드 마운트 개념:** 호스트의 특정 절대 경로 디렉터리를 컨테이너 내부 폴더에 직접 마운트하는 방식입니다.
+* `-v $(pwd):/app`: 현재 작업 위치(`$(pwd)`)를 컨테이너의 `/app`에 연결합니다.
 
 ```bash
 # 호스트 디렉터리를 컨테이너로 연결
@@ -288,9 +353,13 @@ $ docker exec bind-test bash -c "echo 'Bind Mount Sync Test' > /app/app_test.txt
 $ cat ./app_test.txt
 Bind Mount Sync Test
 ```
+* **확인 내용:** 컨테이너 내부에서 생성한 파일이 호스트 파일시스템 상에 즉시 동기화되어 반영되었습니다.
 
-#### ✅ Docker Named Volume 데이터 영속성 및 상세 메타 정보 검증
-* 컨테이너를 강제 삭제(`docker rm -f`)해도 연결된 볼륨(`mydata`) 내 데이터가 손실 없이 영구 보존됨을 검증
+---
+
+#### 2) Named Volume 데이터 영속성 (Data Persistence) 및 메타정보 검증
+* **Named Volume 개념:** 호스트의 특정 폴더 위치에 얽매이지 않고, Docker가 데이터 저장 전용 스토리지 영역을 직접 제어/관리하는 방식입니다. 컨테이너가 파기되어도 데이터는 보존됩니다.
+* `docker volume inspect`: 볼륨의 물리적 마운트 경로 및 생성 일자 등 상세 메타정보를 확인합니다.
 
 ```bash
 # 1. Named Volume 생성 및 상세 메타 정보(사용 위치) 확인
@@ -315,22 +384,25 @@ hohojooho0306@c4r6s3 practice % docker run -d --name vol-test1 -v mydata:/data u
 888df9810decfb9acf0e61f2d11d83c0c1dcd3bf9071066d46fb57f595b970fe
 hohojooho0306@c4r6s3 practice % docker exec vol-test1 bash -c "echo 'Important Data' > /data/test.txt"
 
-# 3. 첫 번째 컨테이너 강제 파기
+# 3. 첫 번째 컨테이너 강제 파기 (rm -f)
 hohojooho0306@c4r6s3 practice % docker rm -f vol-test1
 vol-test1
 
-# 4. 동일 볼륨을 두 번째 새 컨테이너에 연동하여 데이터 확인
+# 4. 동일 볼륨을 두 번째 새 컨테이너에 연동하여 데이터 복구 확인
 hohojooho0306@c4r6s3 practice % docker run -d --name vol-test2 -v mydata:/data ubuntu sleep infinity
 d8b5040cc41c59077f46f04861375e21419b11003dbe1a8d1d8d7c1c6ef42fc1
 hohojooho0306@c4r6s3 practice % docker exec vol-test2 bash -c "cat /data/test.txt"
 Important Data
 ```
+* **확인 내용:** 첫 번째 컨테이너를 강제 삭제(`docker rm -f`)했음에도 불구하고, 동일 볼륨을 마운트한 두 번째 컨테이너에서 `Important Data` 텍스트가 유실 없이 완벽하게 복구되었습니다.
 
 ---
 
 ### 5.6. Git 설정 및 GitHub 연동 로그
 
-#### ✅ Git 사용자 설정 (`git config`) 및 Push 증명
+#### 1) Git 사용자 환경 설정 (`git config`)
+* `git config user.name` / `user.email`: 커밋 작성자의 소유자 정보를 설정합니다.
+* `git config --list`: 설정된 사용자명과 이메일 항목을 조회 및 검증합니다.
 
 ```bash
 # 1. Git 로컬/글로벌 사용자 설정 및 검증
@@ -340,7 +412,17 @@ hohojooho0306@c4r6s3 practice % git config user.email "hohojooho@example.com"
 hohojooho0306@c4r6s3 practice % git config --list | grep user
 user.name=hohojooho-ship-it
 user.email=hohojooho@example.com
+```
 
+---
+
+#### 2) 저장소 초기화, 커밋 및 원격 저장소 푸시
+* `git init`: 로컬 Git 저장소를 생성합니다.
+* `git branch -M main`: 기본 브랜치 이름을 `master`에서 표준인 `main`으로 변경합니다.
+* `git remote add origin`: GitHub의 원격 저장소 URL 주소를 연동합니다.
+* `git push -u origin main`: 로컬 커밋 이력을 원격 저장소 `main` 브랜치로 최종 업로드합니다.
+
+```bash
 # 2. Git 저장소 초기화, 커밋 및 기본 브랜치 변경
 hohojooho0306@c4r6s3 practice % git init
 hohojooho0306@c4r6s3 practice % git add .
@@ -368,6 +450,8 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
   * `echo "<h1>My Custom Docker Web Server!</h1>"` $\rightarrow$ `zsh: event not found: </h1>` 에러 발생 (zsh가 `!`를 커맨드 히스토리 이벤트로 처리함)
 * **최종 해결 (성공):** 느낌표 앞에 이스케이프 문자(`\`) 추가
   * `echo "<h1>My Custom Docker Web Server\!</h1>" > index.html` 입력하여 파일 정상 생성 완료
+
+---
 
 ### 📌 이슈 2: GitHub URL 입력 시 줄바꿈(Enter)에 의한 Remote 중복 등록 에러
 * **시도했던 대안 1 (실패):** 단순 재등록 시도
@@ -411,7 +495,7 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 ## 8. 실행 재현 시 주의사항 및 사전 조건
 
-* **사전 조건:** Docker Engine( 또는 OrbStack/Docker Desktop)이 가동 중이어야 하며, 8080 포트가 타 프로세스에 의해 점유되어 있지 않아야 함.
+* **사전 조건:** Docker Engine(또는 OrbStack/Docker Desktop)이 가동 중이어야 하며, 8080 포트가 타 프로세스에 의해 점유되어 있지 않아야 함.
 * **주의사항:**
   * macOS zsh 사용 시 `echo` 내부 느낌표(`!`) 입력 시 이스케이프(`\!`) 필수.
   * 바인드 마운트 사용 시 호스트의 소유 권한이 컨테이너 내부 권한과 충돌하지 않도록 확인 필요.
