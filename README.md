@@ -44,6 +44,8 @@
 
 ## 4. 수행 로그 및 검증 결과
 
+git clone https://github.com/juhoo03/my-docker-web
+
 ### 4.1. 터미널 조작 및 권한 실습 로그
 
 #### 1) 디렉토리 생성 및 작업 위치 확인
