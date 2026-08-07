@@ -151,49 +151,29 @@ drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 
 ### 4.2. Docker 설치 점검 및 운영 로그
 
-## 🐳 Docker Environment & Architecture Check
-
-### 1. 도커 버전 및 데몬 상태 점검 (Plaintext)
-
-터미널에서 `docker info` 명령어를 실행하여 도커 클라이언트와 데몬(Engine)의 실행 상태를 점검한 결과입니다.
+## 🏗️ Docker Architecture
 
 ```text
-Client: Docker Engine - Community
- Version:    28.5.2
- Context:    default
- Debug Mode: false
+[ 사용자 / 터미널 ]
+        │
+        ▼ (명령어 전달: docker run ...)
+┌──────────────────────────────────────────────┐
+│  Docker Client (클라이언트)                  │
+└──────────────────────┬───────────────────────┘
+                       │ (REST API / Socket)
+                       ▼
+┌──────────────────────────────────────────────┐
+│  Docker Host (서버)                          │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │  Docker Daemon (dockerd)              │  │  <-- 핵심 실행 엔진!
+│  └──────────────────┬─────────────────────┘  │
+│                     │                        │
+│          ┌──────────┴──────────┐             │
+│          ▼                     ▼             │
+│    [ Images ]            [ Containers ]      │
+└──────────────────────────────────────────────┘
 
-Server:
- Containers: 2
-  Running: 1
-  Paused: 0
-  Stopped: 1
- Images: 3
- Server Version: 28.5.2
- Storage Driver: overlay2
- Logging Driver: json-file
- Cgroup Driver: cgroupfs
- Plugins:
-  Volume: local
-  Network: bridge host ipvlan macvlan null overlay
- Swarm: inactive
- Runtimes: io.containerd.runc.v2 runc
- Default Runtime: runc
- Init Binary: docker-init
- containerd version: 1.7.22
- runc version: v1.1.14
- docker-init version: de11d10
- Security Options:
-  seccomp
-   Profile: builtin
- Kernel Version: 6.6.137-linuxkit
- Operating System: Alpine Linux v3.20 (OrbStack)
- OSType: linux
- Architecture: aarch64
- CPUs: 4
- Total Memory: 7.765GiB
- Name: orbstack
- Docker Root Dir: /var/lib/docker
 #### 1) 도커 버전 및 데몬 상태 점검
 * `docker --version`: 클라이언트 도커 엔진 버전을 확인합니다.
 * `docker info`: 시스템 전체의 도커 데몬 상태, 시스템 자원, 컨테이너 및 이미지 개수 등 상세 메타정보를 조회합니다.
