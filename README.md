@@ -117,10 +117,13 @@ drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:41 ..
 ---
 
 #### 5) 권한 변경 실습 및 전/후 비교
-* `chmod`: 파일이나 디렉토리의 읽기(r), 쓰기(w), 실행(x) 접근 권한을 변경합니다.
-* **권한 적용 이유:** `test_file.txt`는 실행 스크립트 역할을 부여하기 위해 실행 권한(`x`)이 포함된 **755**를 부여했고, `test_dir`은 보안상 외부 실행/내부 탐색을 제한하고 읽기/쓰기만 허용하기 위해 **644**를 적용했습니다.
 
-```bash
+chmod: 파일이나 디렉토리의 읽기(r), 쓰기(w), 실행(x) 접근 권한을 변경합니다.
+
+권한 적용 이유:
+- test_file.txt (755): 실행 스크립트 역할을 수행할 수 있도록 실행 권한(x)을 추가했습니다.
+- test_dir (644): 권한 변경 테스트를 위해 실행/접근 권한(x)을 제거한 권한(644)을 적용했습니다. (※ 주의: 디렉토리에 x 권한이 없으면 cd 명령을 통한 진입 및 내부 파일 접근이 불가능해집니다.)
+
 # 1. 디렉토리 생성 및 초기 권한 상태 확인
 hohojooho0306@c4r6s3 practice % mkdir test_dir
 hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
@@ -135,10 +138,10 @@ hohojooho0306@c4r6s3 practice % chmod 644 test_dir
 hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
 drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 -rwxr-xr-x  1 hohojooho0306  hohojooho0306   0  7 29 15:51 test_file.txt
-```
-* **확인 내용:**
-  * 파일 권한: `644 (-rw-r--r--)` ➔ `755 (-rwxr-xr-x)`로 성공적으로 변경되었습니다.
-  * 디렉토리 권한: `755 (drwxr-xr-x)` ➔ `644 (drw-r--r--)`로 성공적으로 변경되었습니다.
+
+확인 내용:
+- 파일 권한: 644 (-rw-r--r--) ➔ 755 (-rwxr-xr-x)로 정상 변경 (실행 권한 부여됨)
+- 디렉토리 권한: 755 (drwxr-xr-x) ➔ 644 (drw-r--r--)로 정상 변경 (디렉토리 접근/진입 권한 제거됨)
 
 ---
 
