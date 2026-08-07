@@ -27,28 +27,7 @@
 
 ---
 
-## 3. 디렉토리 구조 및 역할 (Project Structure)
-
-```text
-practice/
-├── Dockerfile              # NGINX 기반 커스텀 웹 서버 빌드 정의서
-├── index.html              # 웹 서버 대문 메인페이지 정적 HTML 파일
-├── test_file.txt           # 터미널 조작 및 권한 실습용 텍스트 파일
-├── test_dir/               # 디렉토리 권한 변경 실습용 디렉토리
-└── app_test.txt            # 바인드 마운트 동기화 검증용 파일
-```
-
-### 📋 재현 실행 순서
-1. `practice` 디렉터리로 이동 후 기본 파일 및 디렉터리 생성
-2. `chmod` 명령어를 이용한 권한 변경 및 접근 제어 확인
-3. Docker 데몬 및 환경 점검 (`docker info`, `docker --version`)
-4. Dockerfile 기반 이미지 빌드 (`docker build -t my-custom-web:1.0 .`)
-5. 컨테이너 포트 매핑, 바인드 마운트, 볼륨 영속성 테스트 수행
-6. Git 저장소 초기화, `git config` 사용자 설정 및 GitHub 원격 push
-
----
-
-## 4. 수행 항목 체크리스트 (Checklist)
+## 3. 수행 항목 체크리스트 (Checklist)
 
 * [x] **터미널 기본 조작:** `pwd`, `ls -la`, `cd`, `mkdir`, `touch`, `cp`, `mv`, `rm`, `cat` 수행
 * [x] **권한 변경 실습:** 파일 1개, 디렉토리 1개 대상 `chmod 755`, `chmod 644` 전/후 비교
@@ -63,9 +42,9 @@ practice/
 
 ---
 
-## 5. 수행 로그 및 검증 결과
+## 4. 수행 로그 및 검증 결과
 
-### 5.1. 터미널 조작 및 권한 실습 로그
+### 4.1. 터미널 조작 및 권한 실습 로그
 
 #### 1) 디렉토리 생성 및 작업 위치 확인
 * `mkdir -p ~/codyssey/practice`: 새로운 디렉토리를 생성하는 명령어이며, `-p` 옵션은 중간 경로가 없을 경우 함께 생성해 줍니다.
@@ -159,7 +138,7 @@ drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 
 ---
 
-### 5.2. Docker 설치 점검 및 운영 로그
+### 4.2. Docker 설치 점검 및 운영 로그
 
 #### 1) 도커 버전 및 데몬 상태 점검
 * `docker --version`: 클라이언트 도커 엔진 버전을 확인합니다.
@@ -228,7 +207,7 @@ $ docker rmi hello-world
 
 ---
 
-### 5.3. 컨테이너 실행 실습 및 관찰 (`hello-world`, `ubuntu`)
+### 4.3. 컨테이너 실행 실습 및 관찰 (`hello-world`, `ubuntu`)
 
 #### 1) `hello-world` 이미지 실행
 * `docker run`: 이미지가 로컬에 없으면 Docker Hub에서 자동 다운로드(`pull`)한 후 컨테이너를 생성(`create`) 및 시작(`start`)합니다.
@@ -286,7 +265,7 @@ root@ae98f507013d:/# exit
 
 ---
 
-### 5.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
+### 4.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
 
 #### 1) 개념 설명 및 소스 코드 작성
 * **Dockerfile:** 이미지 빌드 과정을 자동화한 명세서 파일입니다.
@@ -347,7 +326,7 @@ Connection: keep-alive
 
 ---
 
-### 5.5. 바인드 마운트 및 볼륨 영속성 검증
+### 4.5. 바인드 마운트 및 볼륨 영속성 검증
 
 #### 1) 바인드 마운트 (Bind Mount) 실시간 동기화
 * **바인드 마운트 개념:** 호스트의 특정 절대 경로 디렉터리를 컨테이너 내부 폴더에 직접 마운트하는 방식입니다.
@@ -409,7 +388,7 @@ Important Data
 
 ---
 
-### 5.6. Git 설정 및 GitHub 연동 로그
+### 4.6. Git 설정 및 GitHub 연동 로그
 
 #### 1) Git 사용자 환경 설정 (`git config`)
 * `git config user.name` / `user.email`: 커밋 작성자의 소유자 정보를 설정합니다.
@@ -452,7 +431,7 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 ---
 
-## 6. 트러블슈팅 (Troubleshooting)
+## 5. 트러블슈팅 (Troubleshooting)
 
 ### 📌 이슈 1: zsh 쉘에서 `echo` 명령어 내 느낌표(`!`) 입력 시 `zsh: event not found` 에러
 * **시도했던 대안 1 (실패):** 따옴표 없이 그대로 입력 
@@ -472,7 +451,7 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 ---
 
-## 7. 과제 목표 개념 자가 점검 (Self-Check)
+## 6. 과제 목표 개념 자가 점검 (Self-Check)
 
 * **이미지 불변성 (Immutability) vs 컨테이너 (Container)**
   * **이미지(Image):** 애플리케이션 실행에 필요한 모든 환경을 포함하는 **읽기 전용(Read-Only) 상태의 불변(Immutable) 템플릿**입니다.
@@ -504,9 +483,3 @@ Branch 'main' set up to track remote branch 'main' from 'origin'.
 
 ---
 
-## 8. 실행 재현 시 주의사항 및 사전 조건
-
-* **사전 조건:** Docker Engine(또는 OrbStack/Docker Desktop)이 가동 중이어야 하며, 8080 포트가 타 프로세스에 의해 점유되어 있지 않아야 함.
-* **주의사항:**
-  * macOS zsh 사용 시 `echo` 내부 느낌표(`!`) 입력 시 이스케이프(`\!`) 필수.
-  * 바인드 마운트 사용 시 호스트의 소유 권한이 컨테이너 내부 권한과 충돌하지 않도록 확인 필요.
