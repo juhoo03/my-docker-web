@@ -151,7 +151,7 @@ drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 
 ### 4.2. Docker 설치 점검 및 운영 로그
 
-#### 🏗️ Docker Architecture
+## 🏗️ Docker Architecture
 
 ```text
 [ 사용자 / 터미널 ]
