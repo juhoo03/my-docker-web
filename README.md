@@ -7,11 +7,9 @@
 
 ---
 
-## 2. 실행 환경 (Environment)
+## 2 개발 환경 안내
 
-## 🛠️ Development Environment
-
-| Category | Component | Version / Detail |
+| 구분 | 요소 | 버전 및 상세 정보 |
 | :--- | :--- | :--- |
 | **OS** | macOS | 15.7.4 (24G517) |
 | **Shell** | zsh | 455.1 |
@@ -20,8 +18,6 @@
 | **Git** | Git | v2.53.0 |
 
 <br>
-
-### 💡 Environment Overview
 
 * **OS (운영체제):** 컴퓨터 기본 운영 시스템 (macOS 15.7.4)
 * **Shell (쉘):** 터미널 명령어 입력 대화창 (zsh)
