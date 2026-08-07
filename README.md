@@ -9,10 +9,25 @@
 
 ## 2. 실행 환경 (Environment)
 
-* **OS:** macOS (User: `hohojooho0306`)
-* **Shell / Terminal:** zsh / macOS Terminal
-* **Docker Engine:** Docker Desktop / OrbStack (Docker v28.5.2)
-* **Git Version:** git version 2.53.0
+## 🛠️ Development Environment
+
+| Category | Component | Version / Detail |
+| :--- | :--- | :--- |
+| **OS** | macOS | 15.7.4 (24G517) |
+| **Shell** | zsh | 455.1 |
+| **Runtime** | OrbStack | - |
+| **Docker** | Docker Engine | v28.5.2 (build ecc6942) |
+| **Git** | Git | v2.53.0 |
+
+<br>
+
+### 💡 Environment Overview
+
+* **OS (운영체제):** 컴퓨터 기본 운영 시스템 (macOS 15.7.4)
+* **Shell (쉘):** 터미널 명령어 입력 대화창 (zsh)
+* **Runtime (런타임):** Docker를 가볍고 빠르게 구동하는 실행 환경 (OrbStack)
+* **Docker (도커):** 앱 개발 환경을 컨테이너로 격리·실행하는 도구 (v28.5.2)
+* **Git (깃):** 소스코드 변경 이력을 관리하는 버전 관리 시스템 (v2.53.0)
 
 ---
 
