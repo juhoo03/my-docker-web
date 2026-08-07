@@ -124,7 +124,7 @@ chmod: 파일이나 디렉토리의 읽기(r), 쓰기(w), 실행(x) 접근 권�
 - test_file.txt (755): 실행 스크립트 역할을 수행할 수 있도록 실행 권한(x)을 추가했습니다.
 - test_dir (644): 권한 변경 테스트를 위해 실행/접근 권한(x)을 제거한 권한(644)을 적용했습니다. (※ 주의: 디렉토리에 x 권한이 없으면 cd 명령을 통한 진입 및 내부 파일 접근이 불가능해집니다.)
 
-####1. 디렉토리 생성 및 초기 권한 상태 확인
+#### 1. 디렉토리 생성 및 초기 권한 상태 확인
 hohojooho0306@c4r6s3 practice % mkdir test_dir
 hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
 drwxr-xr-x  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
