@@ -51,6 +51,8 @@
 * `cd ~/codyssey/practice`: 현재 작업 위치를 실습 디렉토리인 `practice`로 이동합니다.
 * `pwd`: 현재 작업 중인 디렉토리의 전체 경로를 출력합니다.
 
+명령어가 궁금하다면? man mkdir
+
 ```bash
 hohojooho0306@c4r6s3 ~ % mkdir -p ~/codyssey/practice
 hohojooho0306@c4r6s3 ~ % cd ~/codyssey/practice
