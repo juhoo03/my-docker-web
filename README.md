@@ -80,43 +80,42 @@ git clone https://github.com/juhoo03/my-docker-web
 
 ### 현재 폴더에서 하위 폴더로 이동
 
-```bash
-cd ~/codyssey/practice
-hohojooho0306@c4r6s3 practice %
-```
-
 `cd ~/codyssey/practice`는 현재 작업 위치를 실습 디렉토리인 `practice`로 이동하는 명령어입니다.
+```bash
+hohojooho0306@c4r6s3 practice % cd ~/codyssey/practice
+```
 
 ---
 
 ### 현재 위치 확인
 
+`pwd`는 현재 작업 중인 디렉토리의 전체 경로를 출력합니다.
 ```bash
-pwd
-
+hohojooho0306@c4r6s3 practice % pwd
 /Users/hohojooho0306/codyssey/practice
 ```
 
-`pwd`는 현재 작업 중인 디렉토리의 전체 경로를 출력합니다.
+
 
 ---
 
 ### 목록 확인
 
+현재 디렉토리에 있는 파일과 폴더 목록을 확인합니다.
 ```bash
 ls
 
 README.md    test.txt
 ```
 
-현재 디렉토리에 있는 파일과 폴더 목록을 확인합니다.
 
 ---
 
 ### 숨김 파일 포함 목록 확인
 
+`ls -al`은 숨김 파일을 포함하여 자세한 파일 목록을 출력합니다.
 ```bash
-ls -al
+ls -la
 
 total 16
 drwxr-xr-x   5 hohojooho0306  staff   160  8월  2 14:33 .
@@ -126,30 +125,16 @@ drwxr-xr-x  14 hohojooho0306  staff   448  8월  2 14:57 .git
 -rw-r--r--   1 hohojooho0306  staff     7  8월  2 13:57 test.txt
 ```
 
-`ls -al`은 숨김 파일을 포함하여 자세한 파일 목록을 출력합니다.
+
 
 ---
 
 ### 명령어가 궁금하다면?
 
+`man` 명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
 ```bash
-man mkdir
+man 명령어
 ```
-
-`man mkdir`은 `mkdir` 명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
-
----
-
-### 전체 실행 예시
-
-```bash
-hohojooho0306@c4r6s3 ~ % mkdir -p ~/codyssey/practice
-hohojooho0306@c4r6s3 ~ % cd ~/codyssey/practice
-hohojooho0306@c4r6s3 practice % pwd
-/Users/hohojooho0306/codyssey/practice
-```
-
-**확인 내용:** 현재 작업 위치가 `practice` 디렉토리로 정상 변경된 것을 확인했습니다.
 
 ---
 
