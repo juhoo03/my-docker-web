@@ -75,8 +75,19 @@ git clone https://github.com/juhoo03/my-docker-web
 
 `mkdir -p ~/codyssey/practice`는 새로운 디렉토리를 생성하는 명령어입니다.  
 `-p` 옵션은 중간 경로가 없을 경우 함께 생성해 줍니다.
+```bash
+hohojooho0306@c4r6s3 practice % mkdir -p ~/codyssey/practice
+```
 
 ---
+### 명령어가 궁금하다면?
+
+`man` 명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
+```bash
+man 명령어
+```
+---
+
 
 ### 현재 폴더에서 하위 폴더로 이동
 
@@ -126,15 +137,6 @@ drwxr-xr-x  14 hohojooho0306  staff   448  8월  2 14:57 .git
 ```
 
 
-
----
-
-### 명령어가 궁금하다면?
-
-`man` 명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
-```bash
-man 명령어
-```
 
 ---
 
