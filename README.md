@@ -32,11 +32,14 @@
 ## 파일 구조
 
 ### 프로젝트 트리 구조
+
+```bash
 my-docker-web/
 ├── Dockerfile
 ├── index.html
 ├── README.md
 └── test_file.txt
+```
 
 ### 구조 설명
 
