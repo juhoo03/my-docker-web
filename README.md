@@ -356,6 +356,7 @@ hohojooho0306@c4r6s3 practice % echo "COPY index.html /usr/share/nginx/html/inde
 
 #### 2) 이미지 빌드 및 포트 매핑 실행
 * `docker build -t <이미지명:태그> <경로>`: Dockerfile을 읽어 새 이미지를 빌드합니다.
+  컨테이너는 분리된 공간이므로 현재 사용자와 포트매핑을 통해 연결 필요
 * `docker run -d -p 8080:80`:
   * `-d` (Detached): 백그라운드에서 컨테이너를 실행합니다.
   * `-p 8080:80` (Port Mapping): 호스트의 8080 포트 접속을 컨테이너 내부의 NGINX 80 포트로 연결해 줍니다.
