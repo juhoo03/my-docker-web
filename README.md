@@ -70,6 +70,12 @@ git clone https://github.com/juhoo03/my-docker-web
 
 #### 1) 디렉토리 생성 및 작업 위치 확인
 * `mkdir -p ~/codyssey/practice`: 새로운 디렉토리를 생성하는 명령어이며, `-p` 옵션은 중간 경로가 없을 경우 함께 생성해 줍니다.
+
+현재 폴더에서 하위 폴더로 이동
+
+cd ~/codyssey/practice
+
+hohojooho0306@c4r6s3 practice %
 * `cd ~/codyssey/practice`: 현재 작업 위치를 실습 디렉토리인 `practice`로 이동합니다.
 * `pwd`: 현재 작업 중인 디렉토리의 전체 경로를 출력합니다.
 
