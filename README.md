@@ -318,6 +318,9 @@ root@ae98f507013d:/# echo "Hello Docker"
 Hello Docker
 root@ae98f507013d:/# exit
 ```
+
+Ubuntu 이미지를 기반으로 my-ubuntu라는 컨테이너를 만들고, -it 옵션을 통해 컨테이너 내부의 bash 쉘에 직접 접속하게 함
+
 * **확인 내용:** 우분투 리눅스 환경의 CLI 제어판에 접속하여 명령어 수행이 완벽히 작동함을 검증했습니다.
 
 ---
