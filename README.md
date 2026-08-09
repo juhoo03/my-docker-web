@@ -455,8 +455,8 @@ Docker 볼륨 --> Docker가 따로 관리하는 창고를 컨테이너에게 빌
 
 ```bash
 # 1. Git 로컬/글로벌 사용자 설정 및 검증
-hohojooho0306@c4r6s3 practice % git config user.name "juhoo03"
-hohojooho0306@c4r6s3 practice % git config user.email "hohojooho@example.com"
+hohojooho0306@c4r6s3 practice % git config --global user.name "juhoo03"
+hohojooho0306@c4r6s3 practice % git config --global user.email "hohojooho@example.com"
 
 hohojooho0306@c4r6s3 practice % git config --list | grep user
 user.name=juhoo03
