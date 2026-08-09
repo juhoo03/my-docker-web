@@ -476,7 +476,7 @@ user.email=hohojooho@example.com
 # 2. Git 저장소 초기화, 커밋 및 기본 브랜치 변경
 hohojooho0306@c4r6s3 practice % git init
 hohojooho0306@c4r6s3 practice % git add .
-hohojooho0306@c4r6s3 practice % git commit -m "feat: complete dev workstation mission"
+hohojooho0306@c4r6s3 practice % git commit -m "feat: complete dev workstation mission nnn"
 [master (최상위-커밋) aea54d5] feat: complete dev workstation mission
 hohojooho0306@c4r6s3 practice % git branch -M main
 
