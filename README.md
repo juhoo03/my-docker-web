@@ -70,6 +70,7 @@ hohojooho0306@c4r6s3 practice % pwd
 #### 2) 파일 생성 및 내용 작성
 * `touch test_file.txt`: 빈 파일 `test_file.txt`를 새로 만듭니다.
 * `echo "Hello Codyssey!" > test_file.txt`: 문자열을 출력하는 `echo`와 덮어쓰기 기호(`>`)를 사용하여 파일에 내용을 저장합니다. (기존 내용이 있다면 덮어씁니다.)
+* cat test_file.txt --> 입력됐나 확인
 
 ```bash
 hohojooho0306@c4r6s3 practice % touch test_file.txt
