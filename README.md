@@ -494,6 +494,12 @@ git status
 ```
 * **원격 저장소 확인 링크:** [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/juhoo03/my-docker-web.git)
 
+touch hello.txt
+git status
+git add hello.txt
+git commit -m "feat: add hello.txt file"
+git push
+
 ---
 
 ## 5. 트러블슈팅 (Troubleshooting)
