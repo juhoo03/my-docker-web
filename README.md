@@ -403,7 +403,7 @@ Connection: keep-alive
 ### 4.5. 바인드 마운트 및 볼륨 영속성 검증
 
 #### 1) 바인드 마운트 (Bind Mount) 실시간 동기화
-* **바인드 마운트 개념:** 호스트의 특정 절대 경로 디렉터리를 컨테이너 내부 폴더에 직접 마운트하는 방식입니다.
+* **바인드 마운트 개념:** 호스트 컴퓨터의 특정 폴더를 컨테이너 내부 폴더와 직접 연결하는 방식
 * `-v $(pwd):/app`: 현재 작업 위치(`$(pwd)`)를 컨테이너의 `/app`에 연결합니다.
 
 ```bash
@@ -417,49 +417,34 @@ $ docker exec bind-test bash -c "echo 'Bind Mount Sync Test' > /app/app_test.txt
 $ cat ./app_test.txt
 Bind Mount Sync Test
 ```
-* **확인 내용:** 컨테이너 내부에서 생성한 파일이 호스트 파일시스템 상에 즉시 동기화되어 반영되었습니다.
+* **확인 내용:** 컨테이너 내부에서 생성한 파일이 호스트 파일시스템 상에 즉시 동기화되어 반영되었습니다. 반대도 가능
 
 ---
 
-#### 2) Named Volume 데이터 영속성 (Data Persistence) 및 메타정보 검증
-* **Named Volume 개념:** 호스트의 특정 폴더 위치에 얽매이지 않고, Docker가 데이터 저장 전용 스토리지 영역을 직접 제어/관리하는 방식입니다. 컨테이너가 파기되어도 데이터는 보존됩니다.
-* `docker volume inspect`: 볼륨의 물리적 마운트 경로 및 생성 일자 등 상세 메타정보를 확인합니다.
+#### 2) Named Volume 데이터 영속성 검증
+* **Named Volume 개념:** Docker가 데이터 저장 전용 스토리지 영역을 직접 제어/관리하는 방식입니다. 컨테이너가 파기되어도 데이터는 보존됩니다.
+* `영속성이란?`: 컨테이너는 기본적으로 삭제하면 내부 데이터도 같이 사라지지만 볼륨이나 바인드 마운트에 저장한 데이터는 남아있음
+이를 데이터 영속성이라 부름
 
 ```bash
-# 1. Named Volume 생성 및 상세 메타 정보(사용 위치) 확인
-hohojooho0306@c4r6s3 practice % docker volume create mydata
-mydata
-
-hohojooho0306@c4r6s3 practice % docker volume inspect mydata
-[
-    {
-        "CreatedAt": "2026-07-29T16:05:00Z",
-        "Driver": "local",
-        "Labels": null,
-        "Mountpoint": "/var/lib/docker/volumes/mydata/_data",
-        "Name": "mydata",
-        "Options": null,
-        "Scope": "local"
-    }
-]
-
-# 2. 첫 번째 컨테이너 생성 및 볼륨 마운트 후 데이터 기록
+# 1. 첫 번째 컨테이너 생성 및 볼륨 마운트 후 데이터 기록
 hohojooho0306@c4r6s3 practice % docker run -d --name vol-test1 -v mydata:/data ubuntu sleep infinity
 888df9810decfb9acf0e61f2d11d83c0c1dcd3bf9071066d46fb57f595b970fe
 hohojooho0306@c4r6s3 practice % docker exec vol-test1 bash -c "echo 'Important Data' > /data/test.txt"
 
-# 3. 첫 번째 컨테이너 강제 파기 (rm -f)
+# 2. 첫 번째 컨테이너 강제 파기 (rm -f)
 hohojooho0306@c4r6s3 practice % docker rm -f vol-test1
 vol-test1
 
-# 4. 동일 볼륨을 두 번째 새 컨테이너에 연동하여 데이터 복구 확인
+# 3. 동일 볼륨을 두 번째 새 컨테이너에 연동하여 데이터 복구 확인
 hohojooho0306@c4r6s3 practice % docker run -d --name vol-test2 -v mydata:/data ubuntu sleep infinity
 d8b5040cc41c59077f46f04861375e21419b11003dbe1a8d1d8d7c1c6ef42fc1
 hohojooho0306@c4r6s3 practice % docker exec vol-test2 bash -c "cat /data/test.txt"
 Important Data
 ```
 * **확인 내용:** 첫 번째 컨테이너를 강제 삭제(`docker rm -f`)했음에도 불구하고, 동일 볼륨을 마운트한 두 번째 컨테이너에서 `Important Data` 텍스트가 유실 없이 완벽하게 복구되었습니다.
-
+바인드 마운트 --> 내가 수정해도 컨테이너가 보고 컨테이너가 수정해도 내가 바로 확인가능
+Docker 볼륨 --> Docker가 따로 관리하는 창고를 컨테이너에게 빌려주는 것, 컨테이너가 삭제되어도 창고는 남아있음
 ---
 
 ### 4.6. Git 설정 및 GitHub 연동 로그
