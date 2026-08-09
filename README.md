@@ -485,6 +485,11 @@ hohojooho0306@c4r6s3 practice % git push -u origin main
 To [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/hohojooho-ship-it/my-docker-web.git)
  * [new branch]      main -> main
 Branch 'main' set up to track remote branch 'main' from 'origin'.
+
+이미 생성돼있다면
+rm -rf my-docker-web/.git
+git add my-docker-web
+git status
 ```
 * **원격 저장소 확인 링크:** [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/hohojooho-ship-it/my-docker-web.git)
 
