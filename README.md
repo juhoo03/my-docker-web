@@ -29,6 +29,24 @@
 
 ---
 
+## 파일 구조
+
+### 프로젝트 트리 구조
+my-docker-web/
+├── Dockerfile
+├── index.html
+├── README.md
+└── test_file.txt
+
+### 구조 설명
+
+현재 프로젝트는 별도의 하위 디렉터리 없이 모든 파일이 루트 디렉터리에 위치한 구조입니다.
+
+* `Dockerfile` : Docker 이미지 빌드 설정 파일
+* `index.html` : Nginx에서 제공할 정적 웹 페이지
+* `README.md` : 프로젝트 실습 내용 및 문서
+* `test_file.txt` : 파일/권한/Git 실습용 파일
+
 ## 3. 수행 항목 체크리스트 (Checklist)
 
 * [x] **터미널 기본 조작:** `pwd`, `ls -la`, `cd`, `mkdir`, `touch`, `cp`, `mv`, `rm`, `cat` 수행
