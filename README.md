@@ -492,7 +492,7 @@ rm -rf my-docker-web/.git
 git add my-docker-web
 git status
 ```
-* **원격 저장소 확인 링크:** [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/hohojooho-ship-it/my-docker-web.git)
+* **원격 저장소 확인 링크:** [https://github.com/hohojooho-ship-it/my-docker-web.git](https://github.com/juhoo03/my-docker-web.git)
 
 ---
 
