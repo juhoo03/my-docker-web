@@ -151,7 +151,7 @@ hohojooho0306@c4r6s3 practice % touch test_file.txt
 `>` 기호는 기존 내용이 있다면 덮어씁니다.
 
 ```bash
-hohojooho0306@c4r6s3 practice % echo "Hello Codyssey!" > test_file.txt
+hohojooho0306@c4r6s3 practice % echo 'Hello Codyssey!' > test_file.txt
 ```
 
 `cat`는 파일 안에 내용이 제대로 입력되었는지 확인하는 명령어입니다.
@@ -180,7 +180,9 @@ mv copy_file.txt moved_file.txt
 `ls -l`은 현재 디렉토리의 파일 목록을 권한, 소유자, 크기, 수정 시간과 함께 자세히 보여주는 명령어입니다.
 
 ```bash
-ls -l
+hohojooho0306@c3r7s7 practice % ls -l
+total 8
+-rw-r--r--  1 hohojooho0306  hohojooho0306  16 Aug 10 14:45 test_file.txt
 ```
 
 ### 실행 결과
