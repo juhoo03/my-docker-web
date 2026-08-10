@@ -186,23 +186,6 @@ total 8
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16 Aug 10 14:45 test_file.txt
 ```
 
-### 실행 결과
-
-```bash
-hohojooho0306@c4r6s3 practice % cp test_file.txt copy_file.txt
-hohojooho0306@c4r6s3 practice % mv copy_file.txt moved_file.txt
-hohojooho0306@c4r6s3 practice % ls -l
-total 16
--rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:52 moved_file.txt
--rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
-```
-
-### 확인 내용
-
-- 원본 파일 `test_file.txt`가 존재함을 확인했습니다.
-- 복사 후 이름이 변경된 `moved_file.txt`가 정상 생성된 것을 확인했습니다.
-- `-rw-r--r--`를 통해 현재 설정된 기본 파일 권한 정보를 확인했습니다.
-
 ---
 
 ## 4) 파일 삭제 및 최종 검증
@@ -217,127 +200,247 @@ rm moved_file.txt
 `.`은 현재 디렉토리, `..`은 상위 디렉토리를 의미합니다.
 
 ```bash
-ls -la
-```
-
-### 실행 결과
-
-```bash
-hohojooho0306@c4r6s3 practice % rm moved_file.txt
-hohojooho0306@c4r6s3 practice % ls -la
+hohojooho0306@c3r7s7 practice % ls -la
 total 8
-drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:53 .
-drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:41 ..
--rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
+drwxr-xr-x  3 hohojooho0306  hohojooho0306  96 Aug 10 14:58 .
+drwxr-xr-x  3 hohojooho0306  hohojooho0306  96 Aug 10 14:41 ..
+-rw-r--r--  1 hohojooho0306  hohojooho0306  16 Aug 10 14:45 test_file.txt
 ```
-
-### 확인 내용
-
-- `moved_file.txt`가 정상적으로 삭제되었습니다.
-- 최종적으로 `test_file.txt`만 남아 있음을 확인했습니다.
-- 파일의 생성 → 복사 → 이름 변경 → 삭제 과정이 정상적으로 검증되었습니다.
 
 ---
 
-### 5) 권한 변경 실습 및 전/후 비교
+## 5) 권한 변경 실습 및 전/후 비교
 
-chmod: 파일이나 디렉토리의 읽기(r), 쓰기(w), 실행(x) 접근 권한을 변경합니다.
-사용자/그룹/기타
-맨 앞자리 -는 일반 파일, d는 디렉토리
+`chmod`는 파일이나 디렉토리의 읽기(`r`), 쓰기(`w`), 실행(`x`) 권한을 변경하는 명령어입니다.
 
-#### 1. 디렉토리 생성 및 초기 권한 상태 확인
+권한은 순서대로 **사용자 / 그룹 / 기타 사용자**를 의미합니다.
+
+
+- 맨 앞자리 `-` : 일반 파일
+- 맨 앞자리 `d` : 디렉토리
+- `r` : 읽기 권한
+- `w` : 쓰기 권한
+- `x` : 실행 권한
+--> 이진법을 통해 순서대로 4, 2, 1로 나타낼 수 있음
+---
+
+###  디렉토리 생성
+
+`mkdir test_dir`는 권한 변경 실습에 사용할 디렉토리 `test_dir`를 생성하는 명령어입니다.
+
 ```bash
 hohojooho0306@c4r6s3 practice % mkdir test_dir
+```
+---
+
+###  초기 권한 상태 확인
+
+`ls -ld`는 파일 또는 디렉토리의 권한 정보를 자세히 확인하는 명령어입니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
 drwxr-xr-x  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
 -rw-r--r--  1 hohojooho0306  hohojooho0306   0  7 29 15:51 test_file.txt
 ```
 
- #### 2. 권한 변경 수행 (chmod 755 & chmod 644)
+
+- `test_dir`의 초기 권한은 `drwxr-xr-x`입니다.
+  - 디렉토리 권한: `755`
+- `test_file.txt`의 초기 권한은 `-rw-r--r--`입니다.
+  - 파일 권한: `644`
+
+---
+
+###  권한 변경 수행
+
+`chmod 000 파일명`는 파일에 권한을 변경합니다.
+
 ```bash
 hohojooho0306@c4r6s3 practice % chmod 755 test_file.txt
 hohojooho0306@c4r6s3 practice % chmod 644 test_dir
 ```
 
- #### 3. 변경 후 권한 상태 검증
-```bash
-hohojooho0306@c4r6s3 practice % ls -ld test_file.txt test_dir
-drw-r--r--  2 hohojooho0306  hohojooho0306  64  7 29 15:55 test_dir
--rwxr-xr-x  1 hohojooho0306  hohojooho0306   0  7 29 15:51 test_file.txt
-```
 
-확인 내용:
-- 파일 권한: 644 (-rw-r--r--) ➔ 755 (-rwxr-xr-x)로 정상 변경 (실행 권한 부여됨)
-- 디렉토리 권한: 755 (drwxr-xr-x) ➔ 644 (drw-r--r--)로 정상 변경 (디렉토리 접근/진입 권한 제거됨)
+- `test_file.txt` 권한을 `644`에서 `755`로 변경
+- `test_dir` 권한을 `755`에서 `644`로 변경
 
 ---
 
-### 4.2. Docker 설치 점검 및 운영 로그
+###  변경 후 권한 상태 검증
 
-## 도커란?
-도커는 프로그램을 컨테이너라는 독립된 공간에서 실행하게 해주는 도구
-Python 버전
-Node.js 버전
-라이브러리
-환경 설정
-운영체제 관련 설정등이 필요
+권한이 정상적으로 변경되었는지 `ls -ld` 명령어로 다시 확인합니다.
 
-그런데 사람마다 컴퓨터 환경이 다르면 프로그램이 안 돌아갈 수 있음
-
-도커는 이런 실행 환경을 통째로 묶어서 컨테이너로 실행
-
-## 컨테이너란?
-컨테이너는 프로그램과 실행에 필요한 환경을 함께 담은 독립된 실행 공간
-
-## 도커 데몬이란?
-사용자가 직접 화면에서 조작하지 않아도 백그라운드에서 계속 돌고 있는 프로그램
---> Docker 데몬은 도커 컨테이너를 실제로 만들고 실행하고 관리하는 백그라운드 프로그램
-
-예시?
-사용자: 손님
-Docker Client: 주문 받는 직원
-Docker Daemon: 주방
-컨테이너: 완성된 음식
-이미지: 음식 레시피
-손님이 주문하면 직원이 주방에 전달하고, 주방이 레시피를 보고 음식을 만듭니다.
-
-Docker도 비슷하게 사용자가 명령을 입력하면 Docker Client가 Docker Daemon에게 전달하고, Daemon이 이미지를 이용해 컨테이너를 실행합니다.
+```bash
+hohojooho0306@c3r7s7 practice % ls -ld test_file.txt test_dir
+drw-r--r--  2 hohojooho0306  hohojooho0306  64 Aug 10 15:02 test_dir
+-rwxr-xr-x  1 hohojooho0306  hohojooho0306  16 Aug 10 14:45 test_file.txt
+```
 
 
+- 파일 권한 변경 확인
+
+```bash
+-rw-r--r--  →  -rwxr-xr-x
+644         →  755
+```
+
+
+- 디렉토리 권한 변경 확인
+
+```bash
+drwxr-xr-x  →  drw-r--r--
+755         →  644
+```
+
+- `test_dir`의 실행 권한 `x`가 제거되었습니다.
+- 디렉토리에서 실행 권한 `x`가 없으면 해당 디렉토리로 진입하거나 내부 파일에 접근하는 데 제한이 생길 수 있습니다.
+
+---
+
+### 최종 정리
+
+- `test_file.txt`
+
+```bash
+644 (-rw-r--r--) → 755 (-rwxr-xr-x)
+```
+
+- `test_dir`
+
+```bash
+755 (drwxr-xr-x) → 644 (drw-r--r--)
+```
+
+파일과 디렉토리의 권한이 `chmod` 명령어를 통해 정상적으로 변경되었음을 확인
+---
+
+## 4.2. Docker 설치 점검 및 운영 로그
+
+Docker 설치 여부와 정상 동작 상태를 확인하기 위해 Git 버전, Docker 버전, Docker 시스템 정보를 점검했습니다.
+
+---
+
+## 1) Docker 기본 개념 정의
+
+### Docker란?
+
+Docker는 프로그램을 **컨테이너(Container)** 라는 독립된 실행 공간에서 실행할 수 있게 해주는 도구입니다.
+
+프로그램을 실행하려면 보통 다음과 같은 환경이 필요합니다.
+
+- Python 버전
+- Node.js 버전
+- 라이브러리
+- 환경 설정
+- 운영체제 관련 설정
+
+하지만 사람마다 컴퓨터 환경이 다르면 같은 프로그램도 정상적으로 실행되지 않을 수 있습니다.
+
+Docker는 이런 실행 환경을 하나로 묶어 **어디서든 동일하게 실행할 수 있도록** 도와줍니다.
+
+---
+
+### Container란?
+
+컨테이너는 프로그램과 실행에 필요한 환경을 함께 담은 **독립된 실행 공간**입니다.
+
+즉, 내 컴퓨터 환경에 직접 영향을 많이 받지 않고 프로그램을 실행할 수 있습니다.
+
+---
+
+### Image란?
+
+이미지는 컨테이너를 만들기 위한 **설계도 또는 실행 템플릿**입니다.
+
+컨테이너는 이미지를 기반으로 생성됩니다.
+
+---
+
+### Docker Daemon이란?
+
+Docker Daemon은 사용자가 직접 조작하지 않아도 백그라운드에서 계속 실행되는 프로그램입니다.
+
+Docker에서 컨테이너를 실제로 만들고, 실행하고, 관리하는 핵심 역할을 합니다.
+
+---
+
+### Docker Client란?
+
+Docker Client는 사용자가 터미널에서 입력한 명령어를 Docker Daemon에게 전달하는 역할을 합니다.
+
+예를 들어 사용자가 아래 명령어를 입력하면, Docker Client가 이 명령을 Docker Daemon에게 전달하고, 
+Docker Daemon이 실제 컨테이너를 실행합니다.
+
+---
+
+### 주방 비유로 이해하기
+
+Docker의 동작 방식은 식당에 비유할 수 있습니다.
+
+| Docker 개념 | 식당 비유 |
+|---|---|
+| 사용자 | 손님 |
+| Docker Client | 주문 받는 직원 |
+| Docker Daemon | 주방 |
+| Image | 음식 레시피 |
+| Container | 완성된 음식 |
+
+손님이 주문하면 직원이 주방에 전달하고, 주방은 레시피를 보고 음식을 만듭니다.
+
+Docker도 마찬가지로 사용자가 명령어를 입력하면 Docker Client가 Docker Daemon에게 전달하고, Docker Daemon이 이미지를 이용해 컨테이너를 실행합니다.
 
 ```text
 [ 사용자 / 터미널 ]
         │
-        ▼ (명령어 전달: docker run ...)
+        ▼ 명령어 전달: docker run ...
 ┌──────────────────────────────────────────────┐
-│  Docker Client (클라이언트)                  │
+│ Docker Client                                │
 └──────────────────────┬───────────────────────┘
-                       │ (REST API / Socket)
+                       │ REST API / Socket
                        ▼
 ┌──────────────────────────────────────────────┐
-│  Docker Host (서버)                          │
+│ Docker Host                                  │
 │                                              │
 │  ┌────────────────────────────────────────┐  │
-│  │  Docker Daemon (dockerd)              │  │  <-- 핵심 실행 엔진!
+│  │ Docker Daemon                          │  │
+│  │ dockerd                                │  │
 │  └──────────────────┬─────────────────────┘  │
 │                     │                        │
 │          ┌──────────┴──────────┐             │
 │          ▼                     ▼             │
-│    [ Images ]            [ Containers ]      │
+│      Images              Containers          │
 └──────────────────────────────────────────────┘
+```
 
-### 1) 도커 버전 및 데몬 상태 점검
+---
 
-* **`docker --version`**: 클라이언트 도커 엔진 버전을 확인합니다.
-* **`docker info`**: 시스템 전체의 도커 데몬 상태, 시스템 자원, 컨테이너 및 이미지 개수 등 상세 메타정보를 조회합니다.
+## 2) Git 버전 확인
+
+`git --version`은 현재 설치된 Git의 버전을 확인하는 명령어입니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % git --version
 git version 2.53.0
+```
+---
 
+## 3) Docker 버전 확인
+
+`docker --version`은 현재 설치된 Docker의 버전을 확인하는 명령어입니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % docker --version
 Docker version 28.5.2, build ecc6942
+```
+---
 
+## 4) Docker 시스템 전체 상태 및 상세 정보 확인
+
+`docker info`는 Docker Client와 Docker Server의 상세 정보를 확인하는 명령어입니다.
+
+이 명령어를 통해 Docker Daemon이 정상적으로 동작하는지, 컨테이너와 이미지가 몇 개 있는지, Docker가 어떤 환경에서 실행 중인지 확인할 수 있습니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % docker info
 Client:
  Version:    28.5.2
@@ -357,47 +460,396 @@ Server:
  CPUs: 6
  Total Memory: 15.67GiB
 ```
-* **`docker info` 주요 용어 설명:**
-  * `Containers`: 현재 가상화되어 동작 중이거나 정지된 컨테이너의 총 수 (`Running`/`Paused`/`Stopped` 상태별 세부 표기)
-  * `Images`: 로컬 저장소에 캐싱되거나 직접 빌드하여 보관 중인 이미지의 수
-  * `Operating System`: macOS 환경에서 가상화 백엔드로 작동 중인 경량 VM 엔진(OrbStack) 정보를 출력
+
+### 주요 항목 설명
+
+- `Client`
+  - 사용자가 터미널에서 입력하는 Docker 명령어를 처리하는 부분입니다.
+  - Docker Daemon에게 명령을 전달합니다.
+
+- `Server`
+  - Docker Daemon이 동작하는 서버 영역입니다.
+  - 컨테이너와 이미지를 실제로 관리합니다.
+
+- `Containers`
+  - 현재 Docker에 존재하는 컨테이너의 총 개수입니다.
+  - 실행 중, 일시 정지, 정지 상태를 포함합니다.
+
+- `Running`
+  - 현재 실행 중인 컨테이너 개수입니다.
+
+- `Paused`
+  - 일시 정지된 컨테이너 개수입니다.
+
+- `Stopped`
+  - 정지된 컨테이너 개수입니다.
+
+- `Images`
+  - 로컬 환경에 저장된 Docker 이미지 개수입니다.
+
+- `Server Version`
+  - Docker Daemon의 버전입니다.
+
+- `Operating System`
+  - Docker가 실행 중인 운영 환경입니다.
+  - 현재는 `OrbStack` 환경에서 실행 중입니다.
+
+- `OSType`
+  - Docker가 사용하는 운영체제 타입입니다.
+  - 현재는 `linux`입니다.
+
+- `Architecture`
+  - 시스템 아키텍처 정보입니다.
+  - 현재는 `x86_64`입니다.
+
+- `CPUs`
+  - Docker가 사용할 수 있는 CPU 개수입니다.
+
+- `Total Memory`
+  - Docker 환경에서 사용할 수 있는 전체 메모리 크기입니다.
+
 
 ---
 
-#### 2) Docker 기본 운영 명령 수행 및 정리 절차
-* `docker images`: 로컬에 다운로드되거나 생성된 이미지 목록을 조회합니다.
-* `docker ps -a`: 종료된 컨테이너를 포함해 호스트의 모든 컨테이너 이력을 확인합니다. (`-a` 옵션 제외 시 실행 중인 컨테이너만 표시)
-* `docker logs`: 지정한 컨테이너 내부의 표준 출력(STDOUT) 로그를 확인합니다.
-* `docker rm` / `docker rmi`: 컨테이너 삭제 / 이미지 삭제 명령어입니다.
+
+## 4.2. Docker 설치 점검 및 운영 로그
+
+Docker가 정상적으로 설치되어 있고, Docker Daemon이 제대로 동작하는지 확인합니다.
+
+---
+
+# Docker 설치 및 기본 점검
+
+## Docker 버전 확인
+
+`docker --version`은 현재 설치된 Docker 버전을 확인하는 명령어입니다.
 
 ```bash
-$ docker images
-REPOSITORY    TAG       IMAGE ID       CREATED        SIZE
-ubuntu        latest    de7345b16e94   2 weeks ago    100MB
-hello-world   latest    e2ac70e7319a   4 months ago   10.1kB
-
-$ docker ps -a
-CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS   NAMES
-ae98f507013d   ubuntu        "bash"     5 minutes ago    Exited (0) 3 minutes ago            my-ubuntu
-bc52119204f6   hello-world   "/hello"   11 minutes ago   Exited (0) 11 minutes ago           gifted_meitner
-
-$ docker logs my-ubuntu
-root@ae98f507013d:/# ls
-bin boot dev etc home lib lib64 media mnt opt proc root run sbin srv sys tmp usr var
-root@ae98f507013d:/# exit
-
-# 컨테이너 및 이미지 삭제 정리 절차
-$ docker rm my-ubuntu gifted_meitner
-$ docker rmi hello-world
+docker --version
 ```
-* **컨테이너/이미지 정리 시점 및 이유:** 실습 완료 후 불필요한 디스크 용량 점유를 방지하고 리소스 경합을 줄이기 위해, 사용하지 않는 정지 상태의 컨테이너와 중복 이미지를 명시적으로 삭제했습니다.
+
+### 실행 결과
+
+```bash
+hohojooho0306@c4r6s3 practice % docker --version
+Docker version 29.4.0, build 9d7ad9f
+```
+
+### 확인 내용
+
+- Docker가 정상적으로 설치되어 있음을 확인했습니다.
+- 현재 Docker 버전은 `29.4.0`입니다.
+- `build 9d7ad9f`는 해당 Docker 버전의 빌드 식별자입니다.
 
 ---
 
-### 4.3. 컨테이너 실행 실습 및 관찰 (`hello-world`, `ubuntu`)
+## Docker 시스템 전체 상태 & 상세 정보 확인
 
-#### 1) `hello-world` 이미지 실행
-* `docker run`: 이미지가 로컬에 없으면 Docker Hub에서 자동 다운로드(`pull`)한 후 컨테이너를 생성(`create`) 및 시작(`start`)합니다.
+`docker info`는 Docker Client와 Docker Server의 상세 정보를 확인하는 명령어입니다.
+
+Docker Daemon이 정상적으로 실행 중이면 `Server` 정보가 출력됩니다.
+
+```bash
+docker info
+```
+
+### 실행 결과
+
+```bash
+hohojooho0306@c4r6s3 practice % docker info
+Client:
+ Version:    29.4.0
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.33.0
+    Path:     /Users/hanjiwon/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v5.1.2
+    Path:     /Users/hanjiwon/.docker/cli-plugins/docker-compose
+
+Server: # 정상 출력 확인
+ Containers: 1
+  Running: 0
+  Paused: 0
+  Stopped: 1
+ Images: 3
+ Server Version: 29.4.0
+ Storage Driver: overlayfs
+  driver-type: io.containerd.snapshotter.v1
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+
+... 이하 생략
+```
+
+### 주요 항목 설명
+
+- `Client`
+  - 사용자가 터미널에서 입력하는 Docker 명령어를 처리하는 부분입니다.
+  - Docker Daemon에게 명령을 전달합니다.
+
+- `Server`
+  - Docker Daemon이 동작하는 영역입니다.
+  - 컨테이너와 이미지를 실제로 생성, 실행, 관리합니다.
+
+- `Containers`
+  - 현재 Docker에 존재하는 컨테이너의 총 개수입니다.
+
+- `Running`
+  - 현재 실행 중인 컨테이너 개수입니다.
+
+- `Paused`
+  - 일시 정지된 컨테이너 개수입니다.
+
+- `Stopped`
+  - 정지된 컨테이너 개수입니다.
+
+- `Images`
+  - 로컬 환경에 저장된 Docker 이미지 개수입니다.
+
+- `Server Version`
+  - Docker Daemon의 버전입니다.
+
+- `Context`
+  - Docker가 현재 어떤 실행 환경을 사용하는지 나타냅니다.
+  - 현재는 `orbstack` 환경을 사용하고 있습니다.
+
+### 확인 내용
+
+- `docker info` 명령어가 정상적으로 실행되었습니다.
+- `Server` 정보가 출력되었으므로 Docker Daemon이 정상적으로 동작 중임을 확인했습니다.
+- 현재 컨테이너는 총 `1`개이며, 정지 상태 컨테이너가 `1`개 있음을 확인했습니다.
+- 현재 로컬 이미지가 `3`개 존재함을 확인했습니다.
+
+---
+
+# Docker 기본 개념 정리
+
+## Docker란?
+
+Docker는 프로그램을 **컨테이너(Container)** 라는 독립된 공간에서 실행할 수 있게 해주는 도구입니다.
+
+프로그램 실행에는 보통 다음과 같은 환경이 필요합니다.
+
+- Python 버전
+- Node.js 버전
+- 라이브러리
+- 환경 설정
+- 운영체제 관련 설정
+
+하지만 사람마다 컴퓨터 환경이 다르면 같은 프로그램도 정상적으로 실행되지 않을 수 있습니다.
+
+Docker는 이런 실행 환경을 이미지로 묶고, 컨테이너로 실행하여 **어디서든 동일한 환경에서 프로그램을 실행할 수 있도록** 도와줍니다.
+
+---
+
+## Container란?
+
+컨테이너는 프로그램과 실행에 필요한 환경을 함께 담은 **독립된 실행 공간**입니다.
+
+즉, 내 컴퓨터 환경에 직접 영향을 적게 받으면서 프로그램을 실행할 수 있습니다.
+
+---
+
+## Image란?
+
+이미지는 컨테이너를 만들기 위한 **설계도 또는 실행 템플릿**입니다.
+
+컨테이너는 이미지를 기반으로 생성됩니다.
+
+---
+
+## Docker Daemon이란?
+
+Docker Daemon은 백그라운드에서 계속 실행되며 컨테이너를 실제로 만들고 실행하고 관리하는 프로그램입니다.
+
+사용자가 터미널에 Docker 명령어를 입력하면 Docker Client가 Docker Daemon에게 요청을 전달하고, Docker Daemon이 실제 작업을 수행합니다.
+
+---
+
+## Docker 동작 구조
+
+```text
+[ 사용자 / 터미널 ]
+        │
+        ▼ 명령어 전달: docker run ...
+┌──────────────────────────────────────────────┐
+│ Docker Client                                │
+└──────────────────────┬───────────────────────┘
+                       │ REST API / Socket
+                       ▼
+┌──────────────────────────────────────────────┐
+│ Docker Host                                  │
+│                                              │
+│  ┌────────────────────────────────────────┐  │
+│  │ Docker Daemon                          │  │
+│  │ dockerd                                │  │
+│  └──────────────────┬─────────────────────┘  │
+│                     │                        │
+│          ┌──────────┴──────────┐             │
+│          ▼                     ▼             │
+│      Images              Containers          │
+└──────────────────────────────────────────────┘
+```
+
+---
+
+## 식당 비유로 이해하기
+
+| Docker 개념 | 식당 비유 |
+|---|---|
+| 사용자 | 손님 |
+| Docker Client | 주문 받는 직원 |
+| Docker Daemon | 주방 |
+| Image | 음식 레시피 |
+| Container | 완성된 음식 |
+
+손님이 주문하면 직원이 주방에 전달하고, 주방은 레시피를 보고 음식을 만듭니다.
+
+Docker도 마찬가지로 사용자가 명령어를 입력하면 Docker Client가 Docker Daemon에게 전달하고, Docker Daemon이 이미지를 이용해 컨테이너를 실행합니다.
+
+---
+
+# Docker 기본 운영 명령 수행
+
+## Docker 이미지 다운로드
+
+`docker pull`은 Docker Hub에서 이미지를 다운로드하는 명령어입니다.
+
+```bash
+hohojooho0306@c3r7s7 practice % docker pull nginx
+Using default tag: latest
+latest: Pulling from library/nginx
+26c307b5e35a: Pull complete 
+3c55dc422a81: Pull complete 
+d84ae7b21412: Pull complete 
+c0df8d325117: Pull complete 
+b8b80b9bc028: Pull complete 
+f5de6e85ac74: Pull complete 
+5a4222b844e8: Pull complete 
+Digest: sha256:8541484afbc9c8a5a8a99b379568ebbc957f658583ec9448fc43104229c03cf8
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+```
+
+
+- `nginx` 이미지를 로컬 환경으로 다운로드했습니다.
+- 이미지가 이미 존재하는 경우 최신 상태인지 확인합니다.
+
+---
+
+## Docker 이미지 확인
+
+`docker images`는 로컬에 저장된 Docker 이미지 목록을 확인하는 명령어입니다.
+
+```bash
+hohojooho0306@c4r6s3 practice % docker images
+IMAGE           ID             DISK USAGE   CONTENT SIZE   EXTRA
+mysql:latest    66aec17cd21a   1.31GB       286MB
+nginx:latest    5a88c9c45479   258MB        64.3MB
+ubuntu:latest   3131b4cc82a7   137MB        3.71MB         U
+```
+
+- `mysql`, `nginx`, `ubuntu` 이미지가 로컬에 저장되어 있음을 확인했습니다.
+- 이미지는 컨테이너를 생성하기 위한 기반이 됩니다.
+
+---
+
+## 현재 실행 중인 Container 목록 확인
+
+`docker ps`는 현재 실행 중인 컨테이너 목록을 확인하는 명령어입니다.
+
+```bash
+hohojooho0306@c4r6s3 practice % docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+```
+
+- 현재 실행 중인 컨테이너가 없음을 확인했습니다.
+- `docker ps`와 `docker container ls`는 실행 중인 컨테이너만 보여줍니다.
+
+---
+
+## 모든 Container 목록 확인
+
+`docker ps -a`는 실행 중인 컨테이너뿐만 아니라 종료된 컨테이너까지 모두 보여주는 명령어입니다.
+
+```bash
+hohojooho0306@c4r6s3 practice % docker ps -a
+CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS                    PORTS     NAMES
+5968a1446969   ubuntu    "/bin/bash"   21 hours ago   Exited (0) 21 hours ago             volume-first
+
+```
+
+- 종료된 컨테이너 `volume-first`가 존재함을 확인했습니다.
+- 상태가 `Exited`이므로 현재 실행 중은 아니지만, 컨테이너 이력은 남아 있습니다.
+
+---
+
+## Docker 로그 확인
+
+`docker logs`는 특정 컨테이너에서 출력된 로그를 확인하는 명령어입니다.
+
+```bash
+hohojooho0306@c4r6s3 practice % docker logs 5968a1446969
+root@5968a1446969:/# touch test.txt
+root@5968a1446969:/# ls
+bin  boot  data  dev  etc  home  lib  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@5968a1446969:/# exit
+exit
+```
+
+- 컨테이너 내부에서 실행했던 명령어 로그를 확인했습니다.
+- `touch test.txt`, `ls`, `exit` 명령 실행 기록이 남아 있음을 확인했습니다.
+
+---
+
+## 컨테이너 및 이미지 삭제 정리
+
+실습이 끝난 후 사용하지 않는 컨테이너와 이미지를 삭제할 수 있습니다.
+
+`docker rm`은 컨테이너를 삭제하는 명령어입니다.
+
+```bash
+docker rm 5968a1446969
+```
+
+`docker rmi`는 이미지를 삭제하는 명령어입니다.
+
+```bash
+docker rmi hello-world
+```
+
+### 확인 내용
+
+- 사용하지 않는 정지 상태 컨테이너를 삭제하여 불필요한 리소스 사용을 줄일 수 있습니다.
+- 사용하지 않는 이미지를 삭제하여 디스크 용량을 확보할 수 있습니다.
+
+---
+
+## 4.3. 컨테이너 실행 실습 및 관찰
+
+`hello-world`와 `ubuntu` 이미지를 사용하여 컨테이너 실행 과정을 실습합니다.
+
+---
+
+# 1) hello-world 이미지 실행
+
+`docker run`은 이미지를 기반으로 컨테이너를 생성하고 실행하는 명령어입니다.
+
+이미지가 로컬에 없으면 Docker Hub에서 자동으로 다운로드한 뒤 실행합니다.
+
+```bash
+docker run hello-world
+```
+
+### 실행 결과
 
 ```bash
 hohojooho0306@c4r6s3 practice % docker run hello-world
@@ -418,17 +870,51 @@ To try something more ambitious, you can run an Ubuntu container with:
  $ docker run -it ubuntu bash
 
 Share images, automate workflows, and more with a free Docker ID:
- [https://hub.docker.com/](https://hub.docker.com/)
+ https://hub.docker.com/
 
 For more examples and ideas, visit:
- [https://docs.docker.com/get-started/](https://docs.docker.com/get-started/)
+ https://docs.docker.com/get-started/
 ```
-* **확인 내용:** Docker 클라이언트-데몬 간 통신, 이미지 다운로드, 컨테이너 생성 및 메시지 출력이 정상 작동함을 전체 로그로 입증했습니다.
+
+### 확인 내용
+
+- Docker Client가 Docker Daemon과 정상적으로 통신했습니다.
+- `hello-world` 이미지가 없을 경우 자동으로 다운로드됩니다.
+- Docker Daemon이 이미지를 기반으로 컨테이너를 생성하고 실행했습니다.
+- 컨테이너의 출력 결과가 터미널에 정상적으로 표시되었습니다.
 
 ---
 
-#### 2) `ubuntu` 대화형 컨테이너 실행
-* `-it` 옵션: `-i`(Interactive, 표준 입력 유지)와 `-t`(TTY, 의사 터미널 할당)를 조합하여 컨테이너 내부 쉘로 직접 들어갈 수 있게 해줍니다.
+# 2) ubuntu 대화형 컨테이너 실행
+
+`ubuntu` 이미지를 기반으로 대화형 컨테이너를 실행합니다.
+
+`-it` 옵션은 컨테이너 내부 터미널에 직접 접속하기 위해 사용합니다.
+
+```bash
+docker run -it --name my-ubuntu ubuntu bash
+```
+
+### 옵션 설명
+
+- `-i`
+  - interactive의 약자입니다.
+  - 표준 입력을 유지하여 사용자가 명령어를 입력할 수 있게 합니다.
+
+- `-t`
+  - tty의 약자입니다.
+  - 터미널 환경을 할당합니다.
+
+- `--name my-ubuntu`
+  - 컨테이너 이름을 `my-ubuntu`로 지정합니다.
+
+- `ubuntu`
+  - 사용할 Docker 이미지 이름입니다.
+
+- `bash`
+  - 컨테이너 내부에서 실행할 쉘입니다.
+
+### 실행 결과
 
 ```bash
 hohojooho0306@c4r6s3 practice % docker run -it --name my-ubuntu ubuntu bash
@@ -437,23 +923,58 @@ bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  s
 root@ae98f507013d:/# echo "Hello Docker"
 Hello Docker
 root@ae98f507013d:/# exit
+exit
 ```
 
-Ubuntu 이미지를 기반으로 my-ubuntu라는 컨테이너를 만들고, -it 옵션을 통해 컨테이너 내부의 bash 쉘에 직접 접속하게 함
-exit를 입력하면 bash가 종료되면서 컨테이너도 종료
+### 확인 내용
 
-* **확인 내용:** 우분투 리눅스 환경의 CLI 제어판에 접속하여 명령어 수행이 완벽히 작동함을 검증했습니다.
+- Ubuntu 컨테이너 내부 bash 쉘에 정상적으로 접속했습니다.
+- 컨테이너 내부에서 `ls`, `echo` 명령어가 정상 실행되었습니다.
+- `exit`를 입력하면 bash 프로세스가 종료됩니다.
+- 이 경우 bash가 컨테이너의 메인 프로세스이므로 컨테이너도 함께 종료됩니다.
+
+---
+
+# 3) attach와 exec 차이 관찰
+
+실행 중인 컨테이너에 다시 접속하는 방법에는 `attach`와 `exec`가 있습니다.
+
+두 명령어는 비슷해 보이지만 동작 방식이 다릅니다.
 
 ---
 
-#### 3) `attach` vs `exec` 및 종료/유지 동작 차이 관찰
-* **`exit` 
-  * `exit`: 대화형 쉘 종료 시 메인 프로세스가 종료되어 컨테이너가 `Exited` (정지) 상태로 변경됨.
-* **`docker attach` vs `docker exec` 핵심 개념 차이:**
-  * **`docker attach <컨테이너ID>`:** 컨테이너가 켜질 때 실행된 **기존 메인 프로세스(STDIN/STDOUT)**에 직접 연결합니다. 따라서 터미널 탈출 시 `exit`를 치면 메인 프로세스가 죽어 컨테이너 전체가 중지됩니다.
-  * **`docker exec -it <컨테이너ID> bash`:** 실행 중인 컨테이너에 **독립된 보조 프로세스(새 쉘)**를 하나 더 띄워서 진입합니다. 작업 종료 후 `exit`를 쳐도 추가된 프로세스만 종료되므로 메인 컨테이너는 계속 실행 상태를 유지합니다.
+## attach란?
+
+`docker attach`는 컨테이너가 처음 실행될 때 만들어진 **메인 프로세스**에 다시 연결하는 명령어입니다.
+
+```bash
+docker attach my-ubuntu
+```
+
+### 특징
+
+- 기존 메인 프로세스의 표준 입력, 표준 출력에 연결합니다.
+- `exit`를 입력하면 메인 프로세스가 종료됩니다.
+- 메인 프로세스가 종료되면 컨테이너도 종료됩니다.
+
+### 확인 내용
+
+- `attach`는 기존 컨테이너의 메인 프로세스에 직접 붙는 방식입니다.
+- 대화형 bash 컨테이너에 attach한 뒤 `exit`하면 컨테이너가 `Exited` 상태가 될 수 있습니다.
 
 ---
+
+## exec란?
+
+`docker exec`는 실행 중인 컨테이너 안에 **새로운 보조 프로세스**를 추가로 실행하는 명령어입니다.
+
+```bash
+docker exec -it my-ubuntu bash
+```
+
+### 특징
+
+- 실행 중
 
 ### 4.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
 
