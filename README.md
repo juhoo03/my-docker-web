@@ -958,76 +958,105 @@ docker attach my-ubuntu
 docker exec -it my-ubuntu bash
 ```
 
-### 4.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
+# Docker 커스텀 NGINX 웹 서버 실습
 
-#### 1) 개념 설명 및 소스 코드 작성
-* **Dockerfile:** Docker 이미지를 만들기 위한 설계도
-  -->어떤 이미지를 기반으로 할지
-     어떤 파일을 복사할지
-     어떤 명령을 실행할지
-* **베이스 이미지 (`FROM`):** 이미지를 빌드할 바탕이 되는 기초 환경 (`nginx:alpine` 사용)
-* **`COPY`:** 호스트의 `index.html` 파일을 NGINX 웹 서버의 루트 경로로 복사하여 기본 페이지를 대체함.
+## Dockerfile로 커스텀 NGINX 이미지 만들기
+
+이번 실습에서는 `nginx:alpine` 이미지를 기반으로 사용자 지정 `index.html`을 포함한 커스텀 웹 서버 이미지를 생성했습니다.
+
+- **베이스 이미지**: `nginx:alpine`
+- **커스텀 목적**: 사용자 지정 `index.html`을 컨테이너 내부 NGINX 기본 경로에 복사하여 정적 웹 페이지 변경
+- **복사 경로**: `/usr/share/nginx/html/index.html`
+
+---
+
+## 소스 코드 작성
+
+먼저 커스텀 메인 페이지로 사용할 `index.html` 파일과 Docker 이미지를 만들기 위한 `Dockerfile`을 생성합니다.
 
 ```bash
-# 1. 커스텀 index.html 및 Dockerfile 생성
-hohojooho0306@c4r6s3 practice % echo "<h1>My Custom Docker Web Server\!</h1>" > index.html
+hohojooho0306@c4r6s3 practice % echo "My Custom Docker Web Server!" > index.html
+
 hohojooho0306@c4r6s3 practice % echo "FROM nginx:alpine" > Dockerfile
+
 hohojooho0306@c4r6s3 practice % echo "COPY index.html /usr/share/nginx/html/index.html" >> Dockerfile
 ```
 
+- `index.html` 파일에 표시할 문구를 작성합니다.
+- `FROM nginx:alpine`은 `nginx:alpine` 이미지를 베이스 이미지로 사용한다는 의미입니다.
+- `COPY` 명령어는 로컬의 `index.html` 파일을 컨테이너 내부 NGINX 웹 루트 경로로 복사합니다.
+
 ---
 
-#### 2) 이미지 빌드 및 포트 매핑 실행
-* `docker build -t <이미지명:태그> <경로>`: Dockerfile을 읽어 새 이미지를 빌드합니다.
-  컨테이너는 분리된 공간이므로 현재 사용자와 포트매핑을 통해 연결 필요
-* `docker run -d -p 8080:80`:
-  * `-d` (Detached): 백그라운드에서 컨테이너를 실행합니다.
-  * `-p 8080:80` (Port Mapping): 호스트의 8080 포트 접속을 컨테이너 내부의 NGINX 80 포트로 연결해 줍니다.
+## Dockerfile 기반 이미지 빌드
+
+작성한 `Dockerfile`을 기반으로 Docker 이미지를 빌드합니다.
 
 ```bash
-# 2. Dockerfile 기반 이미지 빌드
 hohojooho0306@c4r6s3 practice % docker build -t my-custom-web:1.0 .
-[+] Building 6.3s (7/7) FINISHED                                              docker:orbstack
- => [1/2] FROM docker.io/library/nginx:alpine
- => [2/2] COPY index.html /usr/share/nginx/html/index.html
- => naming to docker.io/library/my-custom-web:1.0
+[+] Building 6.3s (7/7) FINISHED docker:orbstack
 
-# 3. 빌드 성공 후 생성된 이미지 목록(태그 및 ID) 스냅샷 확인
-hohojooho0306@c4r6s3 practice % docker images
-REPOSITORY      TAG       IMAGE ID       CREATED         SIZE
-my-custom-web   1.0       a1b2c3d4e5f6   10 seconds ago  23.5MB
-nginx           alpine    9f8e7d6c5b4a   2 days ago      23.5MB
+=> [1/2] FROM docker.io/library/nginx:alpine
+=> [2/2] COPY index.html /usr/share/nginx/html/index.html
+=> naming to docker.io/library/my-custom-web:1.0
+```
 
-# 4. 포트 매핑(-p 8080:80) 및 백그라운드 디치 실행
+- `docker build`는 Dockerfile을 기반으로 이미지를 생성하는 명령어입니다.
+- `-t my-custom-web:1.0` 옵션은 이미지 이름과 태그를 지정합니다.
+  - 이미지 이름: `my-custom-web`
+  - 태그: `1.0`
+- 마지막의 `.`은 현재 디렉터리를 빌드 컨텍스트로 사용한다는 의미입니다.
+- 빌드 결과 `my-custom-web:1.0` 이미지가 생성되었습니다.
+
+---
+
+## 컨테이너 실행
+
+빌드한 이미지를 기반으로 컨테이너를 실행합니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % docker run -d -p 8080:80 --name web-test my-custom-web:1.0
+
 49b886e899c6d0026fc74564809cd71e4a71ea267ec00d6e8d2d3bf382ce1c20
 ```
 
+- `docker run`은 이미지를 기반으로 컨테이너를 생성하고 실행하는 명령어입니다.
+- `-d` 옵션은 컨테이너를 백그라운드에서 실행합니다.
+- `-p 8080:80` 옵션은 호스트의 `8080` 포트를 컨테이너의 `80` 포트와 연결합니다.
+  - 호스트 포트: `8080`
+  - 컨테이너 포트: `80`
+- `--name web-test`는 컨테이너 이름을 `web-test`로 지정합니다.
+- `my-custom-web:1.0` 이미지를 사용해 컨테이너를 실행했습니다.
+
 ---
 
-#### 3) 포트 매핑 접속 증명 (curl 응답 캡처)
-* `curl -i`: HTTP 응답 헤더와 바디 본문 출력을 함께 조회하여 웹 서버가 정상 작동하는지 외부 터미널에서 검증합니다.
+## 포트 매핑 브라우저 접속 확인
 
-```bash
-hohojooho0306@c4r6s3 practice % curl -i http://localhost:8080
-HTTP/1.1 200 OK
-Server: nginx/1.27.0
-Date: Wed, 29 Jul 2026 16:00:00 GMT
-Content-Type: text/html
-Content-Length: 43
-Connection: keep-alive
+컨테이너 실행 후 브라우저에서 아래 주소로 접속합니다.
 
-<h1>My Custom Docker Web Server!</h1>
+```text
+http://localhost:8080
 ```
-* **확인 내용:** 브라우저 및 `curl` 명령을 통해 NGINX 웹 서버의 200 OK 응답과 커스텀 HTML 메시지가 정상 노출됨을 증명했습니다.
+
+- 호스트의 `8080` 포트로 접속하면 컨테이너 내부의 NGINX `80` 포트로 요청이 전달됩니다.
+- 브라우저 화면에 아래 문구가 표시되면 정상적으로 동작한 것입니다.
+
+```text
+My Custom Docker Web Server!
+```
 
 ---
 
 ### 4.5. 바인드 마운트 및 볼륨 영속성 검증
 
+--> 둘 다 컨테이너가 삭제되어도 데이터를 남길 수 있음
+
 #### 1) 바인드 마운트 (Bind Mount) 실시간 동기화
 * **바인드 마운트 개념:** 호스트 컴퓨터의 특정 폴더를 컨테이너 내부 폴더와 직접 연결하는 방식
 * `-v $(pwd):/app`: 현재 작업 위치(`$(pwd)`)를 컨테이너의 `/app`에 연결합니다.
+
+호스트에서 파일을 수정하면 컨테이너에도 바로 반영됩니다.
+호스트 경로에 의존하기 때문에 다른 환경에서는 경로 문제가 생길 수 있습니다
 
 ```bash
 # 호스트 디렉터리를 컨테이너로 연결
@@ -1040,12 +1069,14 @@ $ docker exec bind-test bash -c "echo 'Bind Mount Sync Test' > /app/app_test.txt
 $ cat ./app_test.txt
 Bind Mount Sync Test
 ```
-* **확인 내용:** 컨테이너 내부에서 생성한 파일이 호스트 파일시스템 상에 즉시 동기화되어 반영되었습니다. 반대도 가능
+* 컨테이너 내부에서 생성한 파일이 호스트 파일시스템 상에 즉시 동기화되어 반영, 반대도 가능
 
 ---
 
 #### 2) Named Volume 데이터 영속성 검증
-* **Named Volume 개념:** Docker가 데이터 저장 전용 스토리지 영역을 직접 제어/관리하는 방식입니다. 컨테이너가 파기되어도 데이터는 보존됩니다.
+* **Named Volume 개념:** 볼륨은 Docker가 직접 관리하는 저장 공간
+사용자가 직접 호스트 경로를 지정하지 않고, Docker가 내부적으로 안전한 위치에 데이터를 저장합니다.
+
 * `영속성이란?`: 컨테이너는 기본적으로 삭제하면 내부 데이터도 같이 사라지지만 볼륨이나 바인드 마운트에 저장한 데이터는 남아있음
 이를 데이터 영속성이라 부름
 
@@ -1066,8 +1097,11 @@ hohojooho0306@c4r6s3 practice % docker exec vol-test2 bash -c "cat /data/test.tx
 Important Data
 ```
 * **확인 내용:** 첫 번째 컨테이너를 강제 삭제(`docker rm -f`)했음에도 불구하고, 동일 볼륨을 마운트한 두 번째 컨테이너에서 `Important Data` 텍스트가 유실 없이 완벽하게 복구되었습니다.
-바인드 마운트 --> 내가 수정해도 컨테이너가 보고 컨테이너가 수정해도 내가 바로 확인가능
-Docker 볼륨 --> Docker가 따로 관리하는 창고를 컨테이너에게 빌려주는 것, 컨테이너가 삭제되어도 창고는 남아있음
+
+Docker가 저장 위치를 관리합니다.
+컨테이너를 삭제해도 볼륨은 삭제되지 않습니다.
+데이터베이스 데이터 저장에 많이 사용합니다.
+호스트 경로에 직접 의존하지 않아 관리가 편합니다.
 ---
 
 ### 4.6. Git 설정 및 GitHub 연동 로그
