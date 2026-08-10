@@ -139,24 +139,51 @@ drwxr-xr-x  14 hohojooho0306  staff   448  8월  2 14:57 .git
 
 
 ---
+### 파일 생성 및 내용 작성
 
-#### 2) 파일 생성 및 내용 작성
-* `touch test_file.txt`: 빈 파일 `test_file.txt`를 새로 만듭니다.
-* `echo "Hello Codyssey!" > test_file.txt`: 문자열을 출력하는 `echo`와 덮어쓰기 기호(`>`)를 사용하여 파일에 내용을 저장합니다. (기존 내용이 있다면 덮어씁니다.)
-* cat test_file.txt --> 입력됐나 확인
+`touch`는 빈 파일를 새로 만드는 명령어입니다.
 
 ```bash
 hohojooho0306@c4r6s3 practice % touch test_file.txt
+```
+
+`echo`는 문자열을 파일에 저장하는 명령어입니다.  
+`>` 기호는 기존 내용이 있다면 덮어씁니다.
+
+```bash
 hohojooho0306@c4r6s3 practice % echo "Hello Codyssey!" > test_file.txt
 ```
-* **확인 내용:** `test_file.txt` 파일 생성 및 "Hello Codyssey!" 문자열이 성공적으로 저장되었습니다.
 
----
+`cat`는 파일 안에 내용이 제대로 입력되었는지 확인하는 명령어입니다.
 
-#### 3) 파일 복사, 이름 변경 및 상세 조회
-* `cp test_file.txt copy_file.txt`: `test_file.txt`를 복사하여 `copy_file.txt`를 생성합니다.
-* `mv copy_file.txt moved_file.txt`: `copy_file.txt`의 이름을 `moved_file.txt`로 변경합니다.
-* `ls -l`: 현재 디렉토리의 파일 목록과 함께 권한, 소유자, 크기, 수정 시간 등을 자세히 보여줍니다.
+```bash
+hohojooho0306@c4r6s3 practice % cat test_file.txt
+Hello Codyssey!
+```
+
+
+### 파일 복사, 이름 변경 및 상세 조회
+
+`cp test_file.txt copy_file.txt`는 `test_file.txt` 파일을 복사하여 `copy_file.txt`를 생성하는 명령어입니다.
+
+```bash
+cp test_file.txt copy_file.txt
+```
+
+`mv copy_file.txt moved_file.txt`는 `copy_file.txt`의 이름을 `moved_file.txt`로 변경하는 명령어입니다.
+[파일] [디렉토리] --> 파일 이동
+[파일] [파일] --> 파일 이름 변경
+```bash
+mv copy_file.txt moved_file.txt
+```
+
+`ls -l`은 현재 디렉토리의 파일 목록을 권한, 소유자, 크기, 수정 시간과 함께 자세히 보여주는 명령어입니다.
+
+```bash
+ls -l
+```
+
+### 실행 결과
 
 ```bash
 hohojooho0306@c4r6s3 practice % cp test_file.txt copy_file.txt
@@ -166,16 +193,31 @@ total 16
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:52 moved_file.txt
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
 ```
-* **확인 내용:**
-  * 원본 파일 `test_file.txt`가 존재함을 확인했습니다.
-  * 복사 후 이름이 변경된 `moved_file.txt`가 정상 생성된 것을 확인했습니다.
-  * `-rw-r--r--`를 통해 현재 설정된 기본 파일 권한 정보를 검증했습니다.
+
+### 확인 내용
+
+- 원본 파일 `test_file.txt`가 존재함을 확인했습니다.
+- 복사 후 이름이 변경된 `moved_file.txt`가 정상 생성된 것을 확인했습니다.
+- `-rw-r--r--`를 통해 현재 설정된 기본 파일 권한 정보를 확인했습니다.
 
 ---
 
-#### 4) 파일 삭제 및 최종 검증
-* `rm moved_file.txt`: 복사 후 이름 변경했던 `moved_file.txt`를 삭제합니다.
-* `ls -la`: 숨김 파일을 포함한 전체 파일 목록을 상세 출력합니다. (`.`은 현재 디렉토리, `..`은 상위 디렉토리를 의미)
+## 4) 파일 삭제 및 최종 검증
+
+`rm moved_file.txt`는 복사 후 이름을 변경했던 `moved_file.txt` 파일을 삭제하는 명령어입니다.
+
+```bash
+rm moved_file.txt
+```
+
+`ls -la`는 숨김 파일을 포함한 전체 파일 목록을 자세히 출력하는 명령어입니다.  
+`.`은 현재 디렉토리, `..`은 상위 디렉토리를 의미합니다.
+
+```bash
+ls -la
+```
+
+### 실행 결과
 
 ```bash
 hohojooho0306@c4r6s3 practice % rm moved_file.txt
@@ -185,10 +227,12 @@ drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:53 .
 drwxr-xr-x  3 hohojooho0306  hohojooho0306  96  7 29 15:41 ..
 -rw-r--r--  1 hohojooho0306  hohojooho0306  16  7 29 15:51 test_file.txt
 ```
-* **확인 내용:**
-  * `moved_file.txt`가 정상적으로 삭제되었습니다.
-  * 최종적으로 `test_file.txt`만 남아있음을 확인했습니다.
-  * 파일의 **생성 ➔ 복사 ➔ 이름 변경 ➔ 삭제** 전 과정이 정상적으로 검증되었습니다.
+
+### 확인 내용
+
+- `moved_file.txt`가 정상적으로 삭제되었습니다.
+- 최종적으로 `test_file.txt`만 남아 있음을 확인했습니다.
+- 파일의 생성 → 복사 → 이름 변경 → 삭제 과정이 정상적으로 검증되었습니다.
 
 ---
 
