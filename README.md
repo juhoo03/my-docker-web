@@ -82,7 +82,7 @@ hohojooho0306@c4r6s3 practice % mkdir -p ~/codyssey/practice
 ---
 ### 명령어가 궁금하다면?
 
-`man` 명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
+명령어의 사용 방법과 옵션을 확인할 수 있는 명령어입니다.
 ```bash
 man 명령어
 ```
