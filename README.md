@@ -163,6 +163,8 @@ Hello Codyssey!
 
 
 ### 파일 복사, 이름 변경 및 상세 조회
+## [파일] [디렉토리] --> 파일 이동
+## [파일] [파일] --> 파일 이름 변경
 
 `cp test_file.txt copy_file.txt`는 `test_file.txt` 파일을 복사하여 `copy_file.txt`를 생성하는 명령어입니다.
 
@@ -173,8 +175,6 @@ cp test_file.txt copy_file.txt
 `mv copy_file.txt moved_file.txt`는 `copy_file.txt`의 이름을 `moved_file.txt`로 변경하는 명령어입니다.
 
 ```bash
-[파일] [디렉토리] --> 파일 이동
-[파일] [파일] --> 파일 이름 변경
 mv copy_file.txt moved_file.txt
 ```
 
