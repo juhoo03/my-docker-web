@@ -826,8 +826,6 @@ docker rm 5968a1446969
 docker rmi hello-world
 ```
 
-### 확인 내용
-
 - 사용하지 않는 정지 상태 컨테이너를 삭제하여 불필요한 리소스 사용을 줄일 수 있습니다.
 - 사용하지 않는 이미지를 삭제하여 디스크 용량을 확보할 수 있습니다.
 
@@ -835,7 +833,6 @@ docker rmi hello-world
 
 ## 4.3. 컨테이너 실행 실습 및 관찰
 
-`hello-world`와 `ubuntu` 이미지를 사용하여 컨테이너 실행 과정을 실습합니다.
 
 ---
 
@@ -843,13 +840,13 @@ docker rmi hello-world
 
 `docker run`은 이미지를 기반으로 컨테이너를 생성하고 실행하는 명령어입니다.
 
-이미지가 로컬에 없으면 Docker Hub에서 자동으로 다운로드한 뒤 실행합니다.
+이미지가 로컬에 없으면 Docker Hub에서 자동으로 다운로드한 뒤 컨테이너를 생성하고 실행합니다.
 
-```bash
-docker run hello-world
-```
+즉, `docker run`은 다음 과정을 자동으로 수행합니다.
 
-### 실행 결과
+1. `pull`: 이미지가 없으면 다운로드
+2. `create`: 컨테이너 생성
+3. `start`: 컨테이너 실행
 
 ```bash
 hohojooho0306@c4r6s3 practice % docker run hello-world
@@ -876,8 +873,6 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-### 확인 내용
-
 - Docker Client가 Docker Daemon과 정상적으로 통신했습니다.
 - `hello-world` 이미지가 없을 경우 자동으로 다운로드됩니다.
 - Docker Daemon이 이미지를 기반으로 컨테이너를 생성하고 실행했습니다.
@@ -887,12 +882,18 @@ For more examples and ideas, visit:
 
 # 2) ubuntu 대화형 컨테이너 실행
 
-`ubuntu` 이미지를 기반으로 대화형 컨테이너를 실행합니다.
+`ubuntu`라는 이미지를 기반으로 대화형 컨테이너를 실행합니다.
 
 `-it` 옵션은 컨테이너 내부 터미널에 직접 접속하기 위해 사용합니다.
 
 ```bash
-docker run -it --name my-ubuntu ubuntu bash
+hohojooho0306@c4r6s3 practice % docker run -it --name my-ubuntu ubuntu bash
+root@ae98f507013d:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@ae98f507013d:/# echo "Hello Docker"
+Hello Docker
+root@ae98f507013d:/# exit
+exit
 ```
 
 ### 옵션 설명
@@ -914,19 +915,6 @@ docker run -it --name my-ubuntu ubuntu bash
 - `bash`
   - 컨테이너 내부에서 실행할 쉘입니다.
 
-### 실행 결과
-
-```bash
-hohojooho0306@c4r6s3 practice % docker run -it --name my-ubuntu ubuntu bash
-root@ae98f507013d:/# ls
-bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
-root@ae98f507013d:/# echo "Hello Docker"
-Hello Docker
-root@ae98f507013d:/# exit
-exit
-```
-
-### 확인 내용
 
 - Ubuntu 컨테이너 내부 bash 쉘에 정상적으로 접속했습니다.
 - 컨테이너 내부에서 `ls`, `echo` 명령어가 정상 실행되었습니다.
@@ -945,36 +933,30 @@ exit
 
 ## attach란?
 
-`docker attach`는 컨테이너가 처음 실행될 때 만들어진 **메인 프로세스**에 다시 연결하는 명령어입니다.
+`docker attach`는 이미 실행 중인 컨테이너의 메인 프로세스에 직접 연결합니다.
 
+이 컨테이너의 메인 프로세스는 bash
+다른 터미널에서 docker attach my-ubuntu
+하면 기존에 실행 중이던 bash 화면에 다시 붙는 것
+
+새 bash를 만드는 게 아니라 원래 있던 bash에 연결하는 것
+
+- `exit`를 입력하면 메인 프로세스가 종료됩니다.
+- 대화형 bash 컨테이너에 attach한 뒤 `exit`하면 컨테이너가 `Exited` 상태가 될 수 있습니다.
+  
 ```bash
 docker attach my-ubuntu
 ```
-
-### 특징
-
-- 기존 메인 프로세스의 표준 입력, 표준 출력에 연결합니다.
-- `exit`를 입력하면 메인 프로세스가 종료됩니다.
-- 메인 프로세스가 종료되면 컨테이너도 종료됩니다.
-
-### 확인 내용
-
-- `attach`는 기존 컨테이너의 메인 프로세스에 직접 붙는 방식입니다.
-- 대화형 bash 컨테이너에 attach한 뒤 `exit`하면 컨테이너가 `Exited` 상태가 될 수 있습니다.
 
 ---
 
 ## exec란?
 
-`docker exec`는 실행 중인 컨테이너 안에 **새로운 보조 프로세스**를 추가로 실행하는 명령어입니다.
-
+`docker exec`는 실행 중인 컨테이너 안에 exec는 컨테이너 내부의 자체적 프로그램을 통해 새로운 명령어를 실행합니다.
+이건 기존 bash에 붙는 게 아니라 컨테이너 안에서 새 bash를 하나 더 실행하는 것이다.
 ```bash
 docker exec -it my-ubuntu bash
 ```
-
-### 특징
-
-- 실행 중
 
 ### 4.4. 커스텀 Dockerfile 제작, 포트 매핑 및 이미지 스냅샷
 
